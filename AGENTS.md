@@ -63,8 +63,22 @@ supabase/            # migrations (SQL + RLS) and seed
 - **Language:** code, identifiers, comments, commits, and docs in English. UI copy in Spanish via i18n keys; never hardcode user-facing strings.
 - **Naming:** files `kebab-case.ts`, components `PascalCase.tsx`, hooks `useX`, use cases as verbs (`finishWorkout`).
 - **Commits:** Conventional Commits with feature scope, e.g. `feat(workout-session): add rest timer`. No AI attribution.
-- **Branching:** GitHub Flow. Branch `<type>/<issue>-<kebab-desc>` (e.g. `feat/12-rest-timer`) from `main`; squash-merge PRs; `main` is protected.
+- **Branching:** GitHub Flow. `main` is the only long-lived branch (no `dev` branch). Branch `<type>/<issue>-<kebab-desc>` (e.g. `feat/12-rest-timer`) from `main`; squash-merge PRs; `main` is protected.
 - **PRs:** one issue per PR, ~400 changed lines max (split into chained PRs otherwise), title in Conventional Commit format, body with `Closes #N` and how to test.
+
+## Environments & Releases
+
+| Environment | Code | App build | Supabase |
+|-------------|------|-----------|----------|
+| development | feature branch | Expo dev build (`development` profile) | local (`supabase start`) |
+| preview | `main` | APK, EAS `preview` profile, separate app id | cloud project `staging` |
+| production | tag `vX.Y.Z` | APK, EAS `production` profile | cloud project `prod` |
+
+- `main` is always releasable but not released: production is a tag, not a branch.
+- Release: `git tag vX.Y.Z && git push --tags`; CI builds the production APK. Hotfixes follow the same path (`fix/<issue>-...` → PR → new patch tag).
+- SemVer, `0.x` until v1.0: `feat` bumps minor, `fix` bumps patch.
+- Schema changes only through `supabase/migrations`: test locally, apply to `staging` on merge, to `prod` on tag. Never edit schema in the dashboard.
+- Each environment has its own env vars (EAS profile env / GitHub Environments). Never point a non-production build at `prod`.
 
 ## Testing
 

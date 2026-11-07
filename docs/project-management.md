@@ -71,6 +71,44 @@ One milestone per roadmap step (`M0 Foundations` … `M7 v1.0`, see the [README]
 
 > The closing keyword must be `Closes #14` (keyword, space, `#`, number). `# Closes` is a Markdown heading and links nothing.
 
+## Branches, environments, and releases
+
+**There is no `dev` branch.** `main` is the only long-lived branch; feature branches live for a few days. Production is a **tag**, not a branch: merging to `main` changes nothing on the phone until a version is tagged and built.
+
+Why: with one developer, a `dev` branch doubles every merge and drifts from `main`. Protected `main` + CI already gives an always-releasable integration branch.
+
+```text
+feat/12-rest-timer ──PR + CI──▶ main ──tag v0.3.0──▶ production APK
+        │                         │
+   dev build (local)        preview APK (optional check)
+```
+
+| Environment | Code | App build | Supabase |
+|-------------|------|-----------|----------|
+| development | feature branch | Expo dev build | local (`supabase start`) |
+| preview | `main` | APK, `preview` profile, installs next to production | `staging` project |
+| production | tag `vX.Y.Z` | APK, `production` profile | `prod` project |
+
+### Releasing a version
+
+1. Merge the PRs planned for the version into `main`.
+2. Optional: install the preview APK built from `main` and smoke test it.
+3. Tag and push: `git tag v0.3.0 && git push --tags`.
+4. CI builds the production APK and applies pending migrations to `prod`.
+5. Install the APK and close the milestone if it is complete.
+
+### Hotfix
+
+Same path as any change: issue → `fix/45-...` → PR → `main` → patch tag (`v0.3.1`). No `hotfix/` or `release/` branches.
+
+### Versioning
+
+SemVer, `0.x` until v1.0. Since the last tag: any `feat` → bump minor; only `fix` → bump patch; any `!` (breaking) after v1.0 → bump major.
+
+### When to revisit
+
+Add a `release/x.y` branch only if an older version must be patched while the next one is in development (for example, after publishing to the Play Store).
+
 ## Checklist before moving to Done
 
 - [ ] PR merged with squash and CI green
