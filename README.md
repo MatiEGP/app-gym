@@ -37,4 +37,4 @@ TODO: add setup steps after the Expo project is initialized (M0).
 
 ## Contributing
 
-GitHub Flow with Conventional Commits. Branches: `<type>/<issue>-<kebab-desc>`. See [AGENTS.md](AGENTS.md).
+GitHub Flow with Conventional Commits. Branches: `<type>/<issue>-<kebab-desc>`. See [AGENTS.md](AGENTS.md), the [project management guide](docs/project-management.md), and [how to work with Claude](docs/working-with-claude.md).
