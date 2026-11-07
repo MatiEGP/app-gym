@@ -1,0 +1,43 @@
+{
+    "source":  "my-tools",
+    "commit":  "3d08ae7",
+    "installedAt":  "2026-11-07T15:08:13",
+    "items":  [
+                  {
+                      "tool":  "claude",
+                      "kind":  "agent",
+                      "name":  "pipeline-guardian",
+                      "path":  ".claude/agents/pipeline-guardian.md"
+                  },
+                  {
+                      "tool":  "claude",
+                      "kind":  "agent",
+                      "name":  "portfolio-coach",
+                      "path":  ".claude/agents/portfolio-coach.md"
+                  },
+                  {
+                      "tool":  "claude",
+                      "kind":  "agent",
+                      "name":  "researcher",
+                      "path":  ".claude/agents/researcher.md"
+                  },
+                  {
+                      "tool":  "claude",
+                      "kind":  "agent",
+                      "name":  "story-slicer",
+                      "path":  ".claude/agents/story-slicer.md"
+                  },
+                  {
+                      "tool":  "claude",
+                      "kind":  "agent",
+                      "name":  "tutor",
+                      "path":  ".claude/agents/tutor.md"
+                  },
+                  {
+                      "tool":  "claude",
+                      "kind":  "skill",
+                      "name":  "project-bootstrap",
+                      "path":  ".claude/skills/project-bootstrap"
+                  }
+              ]
+}
