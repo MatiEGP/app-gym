@@ -2,6 +2,7 @@
   "expo": {
     "name": "App Gym",
     "slug": "app-gym",
+    "owner": "matiepg",
     "version": "0.1.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
@@ -33,6 +34,11 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "extra": {
+      "eas": {
+        "projectId": "6b1870b5-02de-47b5-b23d-3dd774745798"
+      }
     }
   }
 }
