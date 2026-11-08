@@ -23,15 +23,22 @@ Create the board in the GitHub UI: **Profile → Projects → New project → Bo
 | Size | Single select | S (< 1 day), M (1–2 days), L (split it) |
 | Milestone | Built-in | M0 … M7 |
 
-Enable these built-in workflows in **Project → Workflows**:
+**The board tracks issues only.** An issue is the unit of work; its PR shows up in the issue's **Development** panel through `Closes #N`. Adding PRs as cards would duplicate every task in two columns.
 
-| Workflow | Sets Status to |
-|----------|----------------|
-| Item added to project | Backlog |
-| Pull request linked to issue | Review |
-| Item closed | Done |
-| Pull request merged | Done |
-| Auto-add to project (filter `is:issue,pr is:open`) | — |
+Configure these built-in workflows in **Project → ⋯ → Workflows**:
+
+| Workflow | Setting | Why |
+|----------|---------|-----|
+| Auto-add to project | Repository `app-gym`, filter `is:issue` | New issues land on the board automatically |
+| Item added to project | Status → Backlog | Everything starts in Backlog |
+| Pull request linked to issue | Status → Review | Opening a PR with `Closes #N` moves the issue to Review |
+| Item closed | Status → Done | Merging the PR closes the issue and moves it to Done |
+| Auto-close issue | On | Moving a card to Done by hand closes the issue |
+| Pull request merged | **Off** | No PR cards on the board, so it never applies |
+
+- GitHub Free allows **one** auto-add workflow per project, hence the single `is:issue` filter.
+- Auto-add does **not** add existing items: add older issues by hand (type `#` in a column and pick them).
+- Reopening an issue does not move its card; move it back from Done yourself.
 
 Add a second view as a **Table** grouped by Milestone to see the roadmap.
 
@@ -46,6 +53,8 @@ Add a second view as a **Table** grouped by Milestone to see the roadmap.
 | Done | PR merged, issue closed | — |
 
 An `L` item never enters **Ready**: split it into vertical slices first (the `story-slicer` agent helps).
+
+The WIP limit is set per column (**⋯ → Set column limit**) and is **visual only**: GitHub highlights the count when it is exceeded but does not block anything.
 
 ## Labels
 
