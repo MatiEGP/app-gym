@@ -16,6 +16,7 @@
 | Runtime | Node.js | 22+ (`.nvmrc`) |
 | App | Expo SDK + Expo Router, React Native, React | SDK 58, Router 58, RN 0.88, React 19.3 |
 | Styling | NativeWind v4 + Tailwind CSS 3 | 4.2.7 / 3.4 |
+| i18n | i18next + react-i18next + expo-localization | 27 / 18 / SDK 58 |
 | State | Zustand | TODO (M2) |
 | Local DB | expo-sqlite + Drizzle ORM | TODO (#12) |
 | Backend | Supabase (Postgres, Auth, RLS) | — |
@@ -67,6 +68,7 @@ supabase/            # migrations (SQL + RLS) and seed
 ## Code Conventions
 
 - **Language:** code, identifiers, comments, commits, and docs in English. UI copy in Spanish via i18n keys; never hardcode user-facing strings.
+- **i18n:** add copy to `src/shared/i18n/locales/es.ts` (grouped by screen/feature) and read it with typed selectors: `const { t } = useTranslation(); t(($) => $.group.key)`. Unknown keys fail typecheck; missing keys at runtime render `[missing: key]` and warn in development. Spanish is the fallback for any device language.
 - **Naming:** files `kebab-case.ts`, components `PascalCase.tsx`, hooks `useX`, use cases as verbs (`finishWorkout`).
 - **Formatting:** Prettier (single quotes, trailing commas, width 100); run `pnpm format` before committing. Markdown is not auto-formatted.
 - **Styling:** NativeWind `className` with theme classes (`bg-background`, `text-primary`); no hardcoded colors or `StyleSheet` for theme values. Theme tokens live in `src/shared/ui/tokens.ts` (mapped in `tailwind.config.js`); add tokens there. Styles compile in Metro, not in Jest: verify visual changes with an Android bundle or device check.

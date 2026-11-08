@@ -8,4 +8,10 @@ describe('PlaceholderScreen', () => {
 
     expect(screen.getByText('App Gym')).toBeOnTheScreen();
   });
+
+  it('shows its subtitle in Spanish from the i18n resources', async () => {
+    await render(<PlaceholderScreen />);
+
+    expect(screen.getByText('Tu compañero de entrenamiento')).toBeOnTheScreen();
+  });
 });
