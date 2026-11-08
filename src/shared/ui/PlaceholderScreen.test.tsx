@@ -6,6 +6,6 @@ describe('PlaceholderScreen', () => {
   it('shows the app name', async () => {
     await render(<PlaceholderScreen />);
 
-    expect(screen.getByText('App Gym')).toBeOnTheScreen();
+    expect(screen.getByText('CI red probe')).toBeOnTheScreen();
   });
 });
