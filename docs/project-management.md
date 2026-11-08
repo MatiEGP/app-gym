@@ -70,6 +70,8 @@ One milestone per roadmap step (`M0 Foundations` … `M7 v1.0`, see the [README]
 | PR body | Closing keyword + issue | `Closes #14` |
 
 > The closing keyword must be `Closes #14` (keyword, space, `#`, number). `# Closes` is a Markdown heading and links nothing.
+>
+> ⚠️ Squash merges copy the whole PR body into the commit message, and GitHub closes **every** issue written after a closing keyword (`close`, `fix`, `resolve` and their variants), even inside HTML comments. Mention other issues without a closing keyword ("related to #14", "follow-up of #14"). `pr-template.test.js` guards the template itself.
 
 ## Branches, environments, and releases
 
