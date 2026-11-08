@@ -24,7 +24,7 @@
 
 ## Commands
 
-Run from the repository root. CI runs the same commands.
+Run from the repository root. CI (`.github/workflows/ci.yml`, job `verify`) runs install, lint, typecheck, and test on every PR and on pushes to `main`; `verify` is a required status check for merging into `main`.
 
 ```bash
 pnpm install --frozen-lockfile   # Install dependencies
