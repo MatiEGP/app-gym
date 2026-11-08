@@ -37,6 +37,7 @@ pnpm lint                        # ESLint (eslint-config-expo + Prettier, zero w
 pnpm format                      # Prettier --write, then eslint --fix
 pnpm test                        # Jest (jest-expo preset)
 pnpm db:generate --name <change> # Generate a local SQLite migration from src/shared/db/schema.ts
+pnpm supabase:start | supabase:status | supabase:stop   # Local Supabase stack (Docker Desktop must be running)
 npx eas-cli@27.5.0 build -p android --profile development   # Dev client APK (cloud); needs `eas login`
 pnpm start --dev-client          # Serve JS to the installed development build
 ```
