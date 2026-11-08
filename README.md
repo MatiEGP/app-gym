@@ -27,6 +27,17 @@ pnpm android                     # start Expo and open the app on Android
 
 Without `corepack enable`, prefix commands with `corepack`, for example `corepack pnpm install`.
 
+### Development build (Android)
+
+Expo Go only ships its own native modules; this app needs a development build (its own "Expo Go" with this project's native code). Rebuild it only when native dependencies or `app.json` change.
+
+1. Log in once: `npx eas-cli@27.5.0 login` (browser, GitHub account).
+2. Build in the cloud: `npx eas-cli@27.5.0 build -p android --profile development`. The first build asks to generate the Android keystore (answer yes; EAS stores it). Builds use the free monthly quota.
+3. Open the build link or QR on the phone, download the APK, and install it (allow installs from the browser when Android asks).
+4. Run `pnpm start --dev-client`, open the installed **App Gym**, and scan the QR from it.
+
+The development build is a debug, all-architectures APK (hundreds of MB installed) and loads JavaScript from your PC. The app for daily use is the self-contained `preview`/`production` APK.
+
 Other commands: `pnpm start` (dev server only), `pnpm typecheck`, `pnpm lint` (ESLint + Prettier check, warnings fail), `pnpm format` (auto-fix formatting), `pnpm test` (Jest). CI runs lint, typecheck, and tests on every pull request; the `verify` check must pass to merge. Copy `.env.example` to `.env` once the Supabase setup lands (#13).
 
 ## Roadmap
