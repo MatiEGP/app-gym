@@ -2,6 +2,11 @@
 const { getDefaultConfig } = require('expo/metro-config');
 const { withNativeWind } = require('nativewind/metro');
 
-module.exports = withNativeWind(getDefaultConfig(__dirname), {
+const config = getDefaultConfig(__dirname);
+
+// Drizzle migrations are .sql files imported from src/shared/db/migrations.
+config.resolver.sourceExts.push('sql');
+
+module.exports = withNativeWind(config, {
   input: './src/global.css',
 });

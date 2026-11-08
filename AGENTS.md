@@ -18,7 +18,7 @@
 | Styling | NativeWind v4 + Tailwind CSS 3 | 4.2.7 / 3.4 |
 | i18n | i18next + react-i18next + expo-localization | 27 / 18 / SDK 58 |
 | State | Zustand | TODO (M2) |
-| Local DB | expo-sqlite + Drizzle ORM | TODO (#12) |
+| Local DB | expo-sqlite + Drizzle ORM (drizzle-kit for migrations) | SDK 58 / 0.45 / 0.31 |
 | Backend | Supabase (Postgres, Auth, RLS) | — |
 | Tests | Jest (jest-expo) + React Native Testing Library + test-renderer | Jest 30, jest-expo 58, RNTL 14, test-renderer 1.3 |
 | Package manager | pnpm via Corepack (`packageManager` field) | 10.34.9 |
@@ -36,6 +36,7 @@ pnpm expo install <package>      # Add Expo/RN packages (SDK-compatible versions
 pnpm lint                        # ESLint (eslint-config-expo + Prettier, zero warnings) + prettier --check
 pnpm format                      # Prettier --write, then eslint --fix
 pnpm test                        # Jest (jest-expo preset)
+pnpm db:generate --name <change> # Generate a local SQLite migration from src/shared/db/schema.ts
 eas build -p android --profile preview   # APK (TODO: #15)
 ```
 
@@ -88,6 +89,7 @@ supabase/            # migrations (SQL + RLS) and seed
 - Release: `git tag vX.Y.Z && git push --tags`; CI builds the production APK. Hotfixes follow the same path (`fix/<issue>-...` → PR → new patch tag).
 - SemVer, `0.x` until v1.0: `feat` bumps minor, `fix` bumps patch.
 - Schema changes only through `supabase/migrations`: test locally, apply to `staging` on merge, to `prod` on tag. Never edit schema in the dashboard.
+- Local SQLite schema lives in `src/shared/db/schema.ts`; change it, then run `pnpm db:generate` and commit the generated files in `src/shared/db/migrations/` together. Never edit or delete generated migrations once merged: users' devices already applied them. `MigrationGate` applies pending migrations at startup.
 - Each environment has its own env vars (EAS profile env / GitHub Environments). Never point a non-production build at `prod`.
 
 ## Testing
