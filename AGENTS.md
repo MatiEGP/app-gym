@@ -84,15 +84,16 @@ supabase/            # migrations (SQL + RLS) and seed
 | Environment | Code | App build | Supabase |
 |-------------|------|-----------|----------|
 | development | feature branch | Expo dev build (`development` profile) | local (`supabase start`) |
-| preview | `main` | APK, EAS `preview` profile (same app id for now) | cloud project `staging` |
-| production | tag `vX.Y.Z` | APK, EAS `production` profile | cloud project `prod` |
+| preview | `main` | APK, EAS `preview` profile (same app id for now) | `app-gym-staging` (`blvmfqvthbwljszhijia`) |
+| production | tag `vX.Y.Z` | APK, EAS `production` profile | `app-gym-prod` (`bmwcqyaxjmwfqvvefszp`) |
 
 - `main` is always releasable but not released: production is a tag, not a branch.
 - Release: `git tag vX.Y.Z && git push --tags`; CI builds the production APK. Hotfixes follow the same path (`fix/<issue>-...` → PR → new patch tag).
 - SemVer, `0.x` until v1.0: `feat` bumps minor, `fix` bumps patch.
 - Schema changes only through `supabase/migrations`: test locally, apply to `staging` on merge, to `prod` on tag. Never edit schema in the dashboard.
 - Local SQLite schema lives in `src/shared/db/schema.ts`; change it, then run `pnpm db:generate` and commit the generated files in `src/shared/db/migrations/` together. Never edit or delete generated migrations once merged: users' devices already applied them. `MigrationGate` applies pending migrations at startup.
-- Each environment has its own env vars (EAS profile env / GitHub Environments). Never point a non-production build at `prod`.
+- Each environment has its own env vars (`.env` locally, EAS environment variables for builds, GitHub secrets for CI); see `docs/environments.md`. Never point a non-production build at `prod`.
+- Supabase CLI 3 targets the local stack by default: cloud commands always pass `--remote` explicitly.
 
 ## Testing
 
