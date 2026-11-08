@@ -17,10 +17,17 @@ Expo (React Native) + Expo Router, TypeScript, NativeWind, Zustand, expo-sqlite 
 
 ## Getting Started
 
-TODO: add setup steps after the Expo project is initialized (M0).
+Requirements: Node.js 22+ and Corepack (bundled with Node). An Android emulator or device is needed to run the app.
 
-1. Copy `.env.example` to `.env` and fill in the Supabase values.
-2. TODO: confirm install and dev commands.
+```bash
+corepack enable pnpm             # once per machine; needs an admin terminal on Windows
+pnpm install --frozen-lockfile   # install dependencies (pnpm version pinned in package.json)
+pnpm android                     # start Expo and open the app on Android
+```
+
+Without `corepack enable`, prefix commands with `corepack`, for example `corepack pnpm install`.
+
+Other commands: `pnpm start` (dev server only), `pnpm typecheck`. Copy `.env.example` to `.env` once the Supabase setup lands (#13).
 
 ## Roadmap
 

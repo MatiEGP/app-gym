@@ -12,14 +12,15 @@
 
 | Layer | Technology | Version |
 |-------|------------|---------|
-| Language | TypeScript (strict) | TODO: pin at init |
-| App | Expo + Expo Router (React Native) | TODO: pin SDK at init |
-| Styling | NativeWind | TODO |
-| State | Zustand | TODO |
-| Local DB | expo-sqlite + Drizzle ORM | TODO |
+| Language | TypeScript (strict) | 6.0 |
+| Runtime | Node.js | 22+ (`.nvmrc`) |
+| App | Expo SDK + Expo Router, React Native, React | SDK 58, Router 58, RN 0.88, React 19.3 |
+| Styling | NativeWind | TODO (#10) |
+| State | Zustand | TODO (M2) |
+| Local DB | expo-sqlite + Drizzle ORM | TODO (#12) |
 | Backend | Supabase (Postgres, Auth, RLS) | — |
-| Tests | Jest (jest-expo) + React Native Testing Library | TODO |
-| Package manager | pnpm | TODO |
+| Tests | Jest (jest-expo) + React Native Testing Library | TODO (#7) |
+| Package manager | pnpm via Corepack (`packageManager` field) | 10.34.9 |
 
 ## Commands
 
@@ -27,17 +28,19 @@ Run from the repository root. CI runs the same commands.
 
 ```bash
 pnpm install --frozen-lockfile   # Install dependencies
-pnpm start                       # Expo dev server (TODO: confirm script after init)
-pnpm lint                        # ESLint (TODO: confirm)
-pnpm typecheck                   # tsc --noEmit (TODO: confirm)
-pnpm test                        # Jest (TODO: confirm)
-eas build -p android --profile preview   # APK (TODO: confirm eas.json)
+pnpm start                       # Expo dev server
+pnpm android                     # Expo dev server, opens Android
+pnpm typecheck                   # tsc --noEmit
+pnpm expo install <package>      # Add Expo/RN packages (SDK-compatible versions); never plain `pnpm add` for them
+pnpm lint                        # ESLint (TODO: #6)
+pnpm test                        # Jest (TODO: #7)
+eas build -p android --profile preview   # APK (TODO: #15)
 ```
 
 ## Project Structure
 
 ```text
-app/                 # Expo Router routes; thin, only compose feature screens
+src/app/             # Expo Router routes; thin, only compose feature screens
 src/features/<name>/ # workout-session, routines, exercises, history, settings, auth
   domain/            # pure TS entities and rules (no React/Expo/DB imports)
   application/       # use cases; the only entry point for UI
