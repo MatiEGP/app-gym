@@ -19,7 +19,7 @@
 | State | Zustand | TODO (M2) |
 | Local DB | expo-sqlite + Drizzle ORM | TODO (#12) |
 | Backend | Supabase (Postgres, Auth, RLS) | — |
-| Tests | Jest (jest-expo) + React Native Testing Library | TODO (#7) |
+| Tests | Jest (jest-expo) + React Native Testing Library + test-renderer | Jest 30, jest-expo 58, RNTL 14, test-renderer 1.3 |
 | Package manager | pnpm via Corepack (`packageManager` field) | 10.34.9 |
 
 ## Commands
@@ -34,7 +34,7 @@ pnpm typecheck                   # tsc --noEmit
 pnpm expo install <package>      # Add Expo/RN packages (SDK-compatible versions); never plain `pnpm add` for them
 pnpm lint                        # ESLint (eslint-config-expo + Prettier, zero warnings) + prettier --check
 pnpm format                      # Prettier --write, then eslint --fix
-pnpm test                        # Jest (TODO: #7)
+pnpm test                        # Jest (jest-expo preset)
 eas build -p android --profile preview   # APK (TODO: #15)
 ```
 
@@ -88,6 +88,7 @@ supabase/            # migrations (SQL + RLS) and seed
 ## Testing
 
 - Jest; tests live next to code as `*.test.ts(x)`.
+- RNTL 14: `render`, `fireEvent`, and `act` are async; always `await` them. `test-renderer` minor must match the React minor (React 19.3 → 1.3).
 - Every domain rule and use case has unit tests; every bug fix starts with a failing test.
 - UI: test containers with React Native Testing Library through user-visible behavior.
 - E2E (Maestro) for the critical flow: start workout → add set → finish (from M7).
