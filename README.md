@@ -27,7 +27,7 @@ pnpm android                     # start Expo and open the app on Android
 
 Without `corepack enable`, prefix commands with `corepack`, for example `corepack pnpm install`.
 
-Other commands: `pnpm start` (dev server only), `pnpm typecheck`, `pnpm lint` (ESLint + Prettier check, warnings fail), `pnpm format` (auto-fix formatting). Copy `.env.example` to `.env` once the Supabase setup lands (#13).
+Other commands: `pnpm start` (dev server only), `pnpm typecheck`, `pnpm lint` (ESLint + Prettier check, warnings fail), `pnpm format` (auto-fix formatting), `pnpm test` (Jest). Copy `.env.example` to `.env` once the Supabase setup lands (#13).
 
 ## Roadmap
 
