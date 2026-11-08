@@ -1,7 +1,7 @@
 name: Task (chore / docs / ci)
 description: Technical work with no direct user-visible behavior.
-title: "chore(<area>): <short description>"
-labels: ["type:chore"]
+title: 'chore(<area>): <short description>'
+labels: ['type:chore']
 body:
   - type: textarea
     id: goal
