@@ -15,7 +15,7 @@
 | Language | TypeScript (strict) | 6.0 |
 | Runtime | Node.js | 22+ (`.nvmrc`) |
 | App | Expo SDK + Expo Router, React Native, React | SDK 58, Router 58, RN 0.88, React 19.3 |
-| Styling | NativeWind | TODO (#10) |
+| Styling | NativeWind v4 + Tailwind CSS 3 | 4.2.7 / 3.4 |
 | State | Zustand | TODO (M2) |
 | Local DB | expo-sqlite + Drizzle ORM | TODO (#12) |
 | Backend | Supabase (Postgres, Auth, RLS) | — |
@@ -69,6 +69,7 @@ supabase/            # migrations (SQL + RLS) and seed
 - **Language:** code, identifiers, comments, commits, and docs in English. UI copy in Spanish via i18n keys; never hardcode user-facing strings.
 - **Naming:** files `kebab-case.ts`, components `PascalCase.tsx`, hooks `useX`, use cases as verbs (`finishWorkout`).
 - **Formatting:** Prettier (single quotes, trailing commas, width 100); run `pnpm format` before committing. Markdown is not auto-formatted.
+- **Styling:** NativeWind `className` with theme classes (`bg-background`, `text-primary`); no hardcoded colors or `StyleSheet` for theme values. Theme tokens live in `src/shared/ui/tokens.ts` (mapped in `tailwind.config.js`); add tokens there. Styles compile in Metro, not in Jest: verify visual changes with an Android bundle or device check.
 - **Commits:** Conventional Commits with feature scope, e.g. `feat(workout-session): add rest timer`. No AI attribution.
 - **Branching:** GitHub Flow. `main` is the only long-lived branch (no `dev` branch). Branch `<type>/<issue>-<kebab-desc>` (e.g. `feat/12-rest-timer`) from `main`; squash-merge PRs; `main` is protected.
 - **PRs:** one issue per PR, ~400 changed lines max (split into chained PRs otherwise), title in Conventional Commit format, body with `Closes #N` and how to test.
