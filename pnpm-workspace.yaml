@@ -1,2 +1,7 @@
 # Hoisted node_modules, as create-expo-app configures for pnpm; keeps Metro and native tooling resolution predictable.
 nodeLinker: hoisted
+
+overrides:
+  # Optional peer of @expo/metro-runtime (web only). Pin to the version Expo SDK 58 expects
+  # (expo/bundledNativeModules.json) so it stays in lockstep with react 19.3.0.
+  react-dom: 19.3.0
