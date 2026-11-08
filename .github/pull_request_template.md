@@ -9,6 +9,14 @@ Closes #
 
 <!-- Why is this change needed? -->
 
+## Acceptance criteria evidence
+
+<!-- One row per acceptance criterion of the issue. Kind: test | probe | manual. -->
+
+| Criterion | Kind | Evidence |
+|-----------|------|----------|
+|  |  |  |
+
 ## How to test
 
 1.

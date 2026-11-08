@@ -86,6 +86,7 @@ supabase/            # migrations (SQL + RLS) and seed
 - Every domain rule and use case has unit tests; every bug fix starts with a failing test.
 - UI: test containers with React Native Testing Library through user-visible behavior.
 - E2E (Maestro) for the critical flow: start workout → add set → finish (from M7).
+- Test-first for every change: each acceptance criterion is verified by an automated test, a command probe, or a manual check, in that order of preference, with evidence in the PR (full policy: `CLAUDE.md` → Verification policy).
 
 ## Definition of Done
 
