@@ -37,7 +37,8 @@ pnpm lint                        # ESLint (eslint-config-expo + Prettier, zero w
 pnpm format                      # Prettier --write, then eslint --fix
 pnpm test                        # Jest (jest-expo preset)
 pnpm db:generate --name <change> # Generate a local SQLite migration from src/shared/db/schema.ts
-eas build -p android --profile preview   # APK (TODO: #15)
+npx eas-cli@27.5.0 build -p android --profile development   # Dev client APK (cloud); needs `eas login`
+pnpm start --dev-client          # Serve JS to the installed development build
 ```
 
 ## Project Structure
@@ -82,7 +83,7 @@ supabase/            # migrations (SQL + RLS) and seed
 | Environment | Code | App build | Supabase |
 |-------------|------|-----------|----------|
 | development | feature branch | Expo dev build (`development` profile) | local (`supabase start`) |
-| preview | `main` | APK, EAS `preview` profile, separate app id | cloud project `staging` |
+| preview | `main` | APK, EAS `preview` profile (same app id for now) | cloud project `staging` |
 | production | tag `vX.Y.Z` | APK, EAS `production` profile | cloud project `prod` |
 
 - `main` is always releasable but not released: production is a tag, not a branch.
