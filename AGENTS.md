@@ -57,6 +57,8 @@ supabase/            # migrations (SQL + RLS) and seed
 - `domain/` never imports React, Expo, Drizzle, or Supabase.
 - UI calls use cases; it never queries the DB or Supabase directly.
 - Features never import another feature's internals; only its `application/` exports.
+- Relative imports go at most one folder up (`../x`); anything farther uses the `@/` alias.
+- The three rules above and the relative-import rule are enforced by `pnpm lint` (`eslint.config.js`, tested in `eslint.config.test.js`); never disable them inline.
 - Timers store timestamps (`startedAt`, `restEndsAt`), never accumulated ticks.
 - Every synced table has `id` (client uuid), `user_id`, `updated_at`, `deleted_at` (soft delete).
 - Every Supabase table has RLS enabled with `user_id = auth.uid()` policies.
@@ -87,7 +89,7 @@ supabase/            # migrations (SQL + RLS) and seed
 
 ## Testing
 
-- Jest; tests live next to code as `*.test.ts(x)`.
+- Jest; tests live next to code as `*.test.ts(x)`. Two Jest projects: `app` (jest-expo, everything under `src/`) and `tooling` (plain Node, root `*.test.js` for config such as ESLint rules).
 - RNTL 14: `render`, `fireEvent`, and `act` are async; always `await` them. `test-renderer` minor must match the React minor (React 19.3 → 1.3).
 - Every domain rule and use case has unit tests; every bug fix starts with a failing test.
 - UI: test containers with React Native Testing Library through user-visible behavior.
