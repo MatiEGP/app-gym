@@ -59,6 +59,8 @@ To point the app at the local backend, copy `.env.example` to `.env` and set:
 
 Never put the `SECRET_KEY` / `SERVICE_ROLE_KEY` in the app: `EXPO_PUBLIC_*` values are bundled into the APK.
 
+Cloud projects (staging, prod), where each environment's values live, and how to apply migrations: [docs/environments.md](docs/environments.md).
+
 Other commands: `pnpm start` (dev server only), `pnpm typecheck`, `pnpm lint` (ESLint + Prettier check, warnings fail), `pnpm format` (auto-fix formatting), `pnpm test` (Jest). CI runs lint, typecheck, and tests on every pull request; the `verify` check must pass to merge.
 
 ## Roadmap
