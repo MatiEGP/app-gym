@@ -75,7 +75,7 @@ supabase/            # migrations (SQL + RLS) and seed
 - **Naming:** files `kebab-case.ts`, components `PascalCase.tsx`, hooks `useX`, use cases as verbs (`finishWorkout`).
 - **Formatting:** Prettier (single quotes, trailing commas, width 100); run `pnpm format` before committing. Markdown is not auto-formatted.
 - **Styling:** NativeWind `className` with theme classes (`bg-background`, `text-primary`); no hardcoded colors or `StyleSheet` for theme values. Theme tokens live in `src/shared/ui/tokens.ts` (mapped in `tailwind.config.js`); add tokens there. Styles compile in Metro, not in Jest: verify visual changes with an Android bundle or device check.
-- **Commits:** Conventional Commits with feature scope, e.g. `feat(workout-session): add rest timer`. No AI attribution.
+- **Commits:** Conventional Commits with feature scope, e.g. `feat(workout-session): add rest timer`. No AI attribution anywhere: no `Co-Authored-By` trailers and no "Generated with …" lines in commits, PR titles, or PR descriptions (squash merges copy the PR body into the commit on `main`).
 - **Branching:** GitHub Flow. `main` is the only long-lived branch (no `dev` branch). Branch `<type>/<issue>-<kebab-desc>` (e.g. `feat/12-rest-timer`) from `main`; squash-merge PRs; `main` is protected.
 - **PRs:** one issue per PR, ~400 changed lines max (split into chained PRs otherwise), title in Conventional Commit format, body with `Closes #N` and how to test.
 
