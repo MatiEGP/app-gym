@@ -25,12 +25,30 @@ Trigger: the user asks to implement an issue (e.g. "vamos con el issue #12").
 4. Delegate per tier (table below). The handoff must include:
    - the issue body verbatim and the instruction to read `AGENTS.md` first;
    - `## Allowed edit surfaces` with exact paths or narrow globs;
-   - test-first: one failing test per acceptance criterion, observed RED, then implementation to GREEN;
+   - the verification policy below, with the kind assigned to each acceptance criterion;
    - the verification commands to run and report as `<command>: <result>`;
    - no git operations, no new dependencies, no edits outside the surfaces.
 5. Review the returned diff against the allowed surfaces, then run lint, typecheck, and tests.
 6. Blockers get one correction round from the same agent. If they persist, fix inline or ask the user.
-7. Commit (Conventional Commits, no AI attribution), push, and open the PR from the template with `Closes #N`. Never merge: the user merges.
+7. Commit (Conventional Commits, no AI attribution), push, and open the PR from the template with `Closes #N`, filling the acceptance criteria evidence table. Never merge: the user merges.
+
+## Verification policy
+
+Applies to every implementation path: delegated agents and inline work by the parent session alike.
+
+Before writing code, assign each acceptance criterion one verification kind, in this order of preference:
+
+| Kind | When | How | Evidence in the PR |
+|------|------|-----|--------------------|
+| Automated test | The criterion is observable through code: domain rules, use cases, UI behavior, error states | Write the test first, observe it fail (RED), implement until it passes (GREEN), then refactor | Test name + `pnpm test` result |
+| Command probe | Tooling or config behavior: lint, typecheck, build, CLI, CI | Run the command; for "must fail" criteria, introduce the fault temporarily, observe the failure, revert it | `<command>: <result>` |
+| Manual check | Needs a device or external service: install on the phone, cloud console | Exact steps for the user to run | Steps + who checked and the result |
+
+- Prefer the higher kind whenever possible; never downgrade a testable criterion to a probe or manual check.
+- Tests go through the public interface (use cases, rendered UI), live next to the code as `*.test.ts(x)`, and stay committed as regression tests.
+- Probe faults are never committed.
+- Every bug fix starts with a failing test that reproduces it.
+- A criterion without evidence is not done: report it as pending in the PR instead of checking it.
 
 ## Risk tiers
 

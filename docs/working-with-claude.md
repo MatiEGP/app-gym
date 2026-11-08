@@ -45,7 +45,19 @@ High-risk work stays in the main session because a mistake there can corrupt dat
 
 - **Cheap where it can be:** implementation of well-defined issues runs on Sonnet.
 - **Context lives in the repo, not the chat:** agents start without the conversation, so issues must carry complete acceptance criteria and `AGENTS.md` carries the rules.
-- **Tests first:** each acceptance criterion becomes a test before the code exists, so verification is objective even with a low-effort model.
+- **Tests first:** each acceptance criterion becomes a test before the code exists, so verification is objective even with a low-effort model. This applies whether an agent or Claude writes the code.
+
+## How acceptance criteria are verified
+
+Every criterion gets one kind of verification, preferring the first that fits:
+
+| Kind | Used for | Example |
+|------|----------|---------|
+| Automated test | Domain rules, use cases, UI behavior | "Placeholder text comes from an `es` key" → a test asserts the Spanish text |
+| Command probe | Tooling and config | "An unused variable fails lint" → add one, see `pnpm lint` fail, revert |
+| Manual check | Device or cloud steps | "The APK installs and boots" → you install it on your phone |
+
+Each PR has an **Acceptance criteria evidence** table with one row per criterion. A criterion without evidence is reported as pending, never checked.
 - **One owner for git:** only the main session creates branches, commits, and PRs.
 
 ## Tips
