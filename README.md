@@ -38,7 +38,28 @@ Expo Go only ships its own native modules; this app needs a development build (i
 
 The development build is a debug, all-architectures APK (hundreds of MB installed) and loads JavaScript from your PC. The app for daily use is the self-contained `preview`/`production` APK.
 
-Other commands: `pnpm start` (dev server only), `pnpm typecheck`, `pnpm lint` (ESLint + Prettier check, warnings fail), `pnpm format` (auto-fix formatting), `pnpm test` (Jest). CI runs lint, typecheck, and tests on every pull request; the `verify` check must pass to merge. Copy `.env.example` to `.env` once the Supabase setup lands (#13).
+### Local backend (Supabase)
+
+Requires **Docker Desktop running**. The Supabase CLI is a dev dependency, so no global install is needed.
+
+```bash
+pnpm supabase:start    # start the local stack (first run downloads Docker images)
+pnpm supabase:status   # print local URLs and keys
+pnpm supabase:stop     # stop it; data is kept in a Docker volume
+```
+
+Studio (database UI) runs at http://127.0.0.1:54323. Config, migrations, and the local seed live in `supabase/`.
+
+To point the app at the local backend, copy `.env.example` to `.env` and set:
+
+| Variable | Local value |
+|----------|-------------|
+| `EXPO_PUBLIC_SUPABASE_URL` | `http://<your PC's LAN IP>:54321`, not `127.0.0.1`: on the phone, `127.0.0.1` is the phone itself |
+| `EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | `PUBLISHABLE_KEY` from `pnpm supabase:status` (`sb_publishable_...`) |
+
+Never put the `SECRET_KEY` / `SERVICE_ROLE_KEY` in the app: `EXPO_PUBLIC_*` values are bundled into the APK.
+
+Other commands: `pnpm start` (dev server only), `pnpm typecheck`, `pnpm lint` (ESLint + Prettier check, warnings fail), `pnpm format` (auto-fix formatting), `pnpm test` (Jest). CI runs lint, typecheck, and tests on every pull request; the `verify` check must pass to merge.
 
 ## Roadmap
 

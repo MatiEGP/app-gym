@@ -5,3 +5,8 @@ overrides:
   # Optional peer of @expo/metro-runtime (web only). Pin to the version Expo SDK 58 expects
   # (expo/bundledNativeModules.json) so it stays in lockstep with react 19.3.0.
   react-dom: 19.3.0
+
+# pnpm 10 blocks dependency install scripts by default. The Supabase CLI needs its script to
+# download the platform binary (Supabase docs: `pnpm add supabase --allow-build=supabase`).
+allowBuilds:
+  supabase: true

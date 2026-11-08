@@ -1,0 +1,2 @@
+-- Local development seed: runs on `supabase start` (first run) and `supabase db reset`.
+-- Never runs against the cloud projects. The exercise catalog seed lands with M1.
