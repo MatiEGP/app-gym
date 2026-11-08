@@ -1,4 +1,4 @@
-<!-- Link the issue with a closing keyword so merging closes it, e.g. "Closes #12". -->
+<!-- Complete the line below with this PR's issue number so merging closes it. Never write a closing keyword followed by another issue number anywhere in this body: squash merges copy it into the commit message and GitHub closes that issue too. -->
 Closes #
 
 ## What
