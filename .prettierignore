@@ -1,0 +1,12 @@
+pnpm-lock.yaml
+assets/
+dist/
+.expo/
+expo-env.d.ts
+
+# Managed by an external tooling installer.
+.my-tools.json
+.claude/
+
+# Markdown docs are hand-formatted; Prettier would realign every table.
+*.md

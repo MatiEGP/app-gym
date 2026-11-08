@@ -32,7 +32,8 @@ pnpm start                       # Expo dev server
 pnpm android                     # Expo dev server, opens Android
 pnpm typecheck                   # tsc --noEmit
 pnpm expo install <package>      # Add Expo/RN packages (SDK-compatible versions); never plain `pnpm add` for them
-pnpm lint                        # ESLint (TODO: #6)
+pnpm lint                        # ESLint (eslint-config-expo + Prettier, zero warnings) + prettier --check
+pnpm format                      # Prettier --write, then eslint --fix
 pnpm test                        # Jest (TODO: #7)
 eas build -p android --profile preview   # APK (TODO: #15)
 ```
@@ -65,6 +66,7 @@ supabase/            # migrations (SQL + RLS) and seed
 
 - **Language:** code, identifiers, comments, commits, and docs in English. UI copy in Spanish via i18n keys; never hardcode user-facing strings.
 - **Naming:** files `kebab-case.ts`, components `PascalCase.tsx`, hooks `useX`, use cases as verbs (`finishWorkout`).
+- **Formatting:** Prettier (single quotes, trailing commas, width 100); run `pnpm format` before committing. Markdown is not auto-formatted.
 - **Commits:** Conventional Commits with feature scope, e.g. `feat(workout-session): add rest timer`. No AI attribution.
 - **Branching:** GitHub Flow. `main` is the only long-lived branch (no `dev` branch). Branch `<type>/<issue>-<kebab-desc>` (e.g. `feat/12-rest-timer`) from `main`; squash-merge PRs; `main` is protected.
 - **PRs:** one issue per PR, ~400 changed lines max (split into chained PRs otherwise), title in Conventional Commit format, body with `Closes #N` and how to test.

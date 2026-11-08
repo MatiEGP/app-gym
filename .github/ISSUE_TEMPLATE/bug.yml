@@ -1,7 +1,7 @@
 name: Bug report
 description: Something does not work as expected.
-title: "fix(<area>): <short description>"
-labels: ["type:bug"]
+title: 'fix(<area>): <short description>'
+labels: ['type:bug']
 body:
   - type: textarea
     id: steps
