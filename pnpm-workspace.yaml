@@ -1,0 +1,2 @@
+# Hoisted node_modules, as create-expo-app configures for pnpm; keeps Metro and native tooling resolution predictable.
+nodeLinker: hoisted
