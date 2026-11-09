@@ -12,6 +12,10 @@ Records 0001–0014 were written retroactively at the end of milestone M0 (2026-
 | [0002](0002-native-android-app-with-expo.md) | Build a native Android app with Expo (React Native) | Accepted |
 | [0003](0003-offline-first-local-sqlite.md) | Offline-first: local SQLite is the source of truth | Accepted |
 | [0004](0004-feature-sliced-hexagonal-architecture-enforced-by-lint.md) | Feature-sliced hexagonal architecture, enforced by lint | Accepted |
+| [0005](0005-drizzle-and-expo-sqlite-with-startup-migrations.md) | Drizzle ORM over expo-sqlite, with migrations applied at startup | Accepted |
+| [0006](0006-supabase-backend-and-environments.md) | Supabase as the backend, with local, staging, and production environments | Accepted |
+| [0007](0007-github-flow-with-tag-releases-and-squash-merges.md) | GitHub Flow with tag-based releases and squash merges | Accepted |
+| [0008](0008-eas-build-profiles-and-on-demand-preview.md) | EAS build profiles, with preview APKs built on demand | Accepted |
 
 ## Writing a new ADR
 
