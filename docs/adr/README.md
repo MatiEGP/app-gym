@@ -16,6 +16,12 @@ Records 0001–0014 were written retroactively at the end of milestone M0 (2026-
 | [0006](0006-supabase-backend-and-environments.md) | Supabase as the backend, with local, staging, and production environments | Accepted |
 | [0007](0007-github-flow-with-tag-releases-and-squash-merges.md) | GitHub Flow with tag-based releases and squash merges | Accepted |
 | [0008](0008-eas-build-profiles-and-on-demand-preview.md) | EAS build profiles, with preview APKs built on demand | Accepted |
+| [0009](0009-nativewind-v4-with-design-tokens.md) | Style with NativeWind v4 and design tokens | Accepted |
+| [0010](0010-typed-i18n-with-spanish-fallback.md) | Typed i18n keys, with Spanish as the fallback language | Accepted |
+| [0011](0011-test-first-verification-policy.md) | Test-first verification policy with evidence per acceptance criterion | Accepted |
+| [0012](0012-ci-as-the-required-gate-for-main.md) | CI as the required gate for main | Accepted |
+| [0013](0013-pnpm-via-corepack-with-hoisted-linker.md) | pnpm via Corepack, with the hoisted node linker | Accepted |
+| [0014](0014-issue-driven-workflow-with-risk-tiered-delegation.md) | Issue-driven workflow with risk-tiered delegation | Accepted |
 
 ## Writing a new ADR
 
