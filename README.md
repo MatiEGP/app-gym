@@ -15,6 +15,12 @@ Personal gym companion app: log live workouts, manage unlimited routines, and re
 
 Expo (React Native) + Expo Router, TypeScript, NativeWind, Zustand, expo-sqlite + Drizzle ORM, Supabase (Auth, Postgres, RLS), Jest. See [AGENTS.md](AGENTS.md) for architecture rules and conventions.
 
+## Documentation
+
+- [M0 Foundations report](docs/milestones/m0-foundations.md): what the first milestone delivered, why, and the problems caught along the way.
+- [Architecture Decision Records](docs/adr/README.md): the reasoning behind each significant decision.
+- [Environments](docs/environments.md), [project management](docs/project-management.md), [development workflow](docs/working-with-claude.md).
+
 ## Getting Started
 
 Requirements: Node.js 22+ and Corepack (bundled with Node). An Android emulator or device is needed to run the app.
@@ -77,7 +83,7 @@ Other commands: `pnpm start` (dev server only), `pnpm typecheck`, `pnpm lint` (E
 
 | Milestone | Outcome |
 |-----------|---------|
-| M0 Foundations | Expo init, lint/test tooling, CI, Supabase project |
+| M0 Foundations ✅ | Expo init, lint/test tooling, CI, Supabase project ([report](docs/milestones/m0-foundations.md)) |
 | M1 Exercise catalog | Seeded and custom exercises, muscle groups |
 | M2 Empty workout | Timer, exercises, sets, notes, finish/discard, summary |
 | M3 Rest timer + Settings | Rest notifications, sounds, preferences |
