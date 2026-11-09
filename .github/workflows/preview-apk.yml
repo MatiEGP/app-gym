@@ -1,0 +1,40 @@
+name: Preview APK
+
+# Builds an installable preview APK from main on demand (Actions → Preview APK → Run workflow).
+# Manual only: every EAS build consumes the free monthly quota.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: preview-apk
+  cancel-in-progress: false
+
+jobs:
+  build:
+    name: eas-build-preview
+    # Only main is ever built as preview (docs/environments.md).
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      # Version comes from the `packageManager` field in package.json.
+      - uses: pnpm/action-setup@73e46992e05b19abd31f2f3c20e0e7370d762115 # v6.1.1
+
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+
+      - run: pnpm install --frozen-lockfile
+
+      # Queues the build on EAS and returns; the APK link appears on expo.dev and in `eas build:list`.
+      # The preview profile reads the EAS "preview" environment (staging Supabase values).
+      - name: Queue EAS preview build
+        run: npx --yes eas-cli@27.5.0 build --platform android --profile preview --non-interactive --no-wait
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
