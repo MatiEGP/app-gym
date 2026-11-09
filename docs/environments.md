@@ -20,7 +20,7 @@ Project refs are public identifiers (they appear in each project's URL), not sec
 | `EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY` | `.env`: `PUBLISHABLE_KEY` from `pnpm supabase:status` | EAS `preview` env: staging publishable key (Dashboard → Project Settings → API Keys) | EAS `production` env: prod publishable key |
 | Database password | — (local default) | Password manager only; typed when the CLI asks. Later CI: GitHub secret `SUPABASE_DB_PASSWORD_STAGING` | Password manager only. Later CI: GitHub secret `SUPABASE_DB_PASSWORD_PROD` |
 | `SUPABASE_ACCESS_TOKEN` (CLI in CI) | — (`supabase login` on your PC) | GitHub secret (when migrations run in CI, M5) | same secret |
-| `EXPO_TOKEN` (EAS in CI) | — (`eas login` on your PC) | GitHub secret (#16) | same secret |
+| `EXPO_TOKEN` (EAS in CI) | — (`eas login` on your PC) | GitHub secret `EXPO_TOKEN` (personal token of `matiepg`, used by the Preview APK workflow) | same secret |
 
 Rules:
 

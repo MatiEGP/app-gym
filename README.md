@@ -38,6 +38,16 @@ Expo Go only ships its own native modules; this app needs a development build (i
 
 The development build is a debug, all-architectures APK (hundreds of MB installed) and loads JavaScript from your PC. The app for daily use is the self-contained `preview`/`production` APK.
 
+### Preview APK (install `main` on the phone)
+
+A self-contained release APK (~94 MB) built from `main`, pointing at the staging backend. It runs without a PC or network.
+
+1. GitHub → **Actions** → **Preview APK** → **Run workflow** (branch `main`). The job queues an EAS build and finishes in about a minute.
+2. Wait for the build on expo.dev (project → Builds), or run `npx eas-cli@27.5.0 build:list --platform android --limit 1`.
+3. Open the build's APK link on the phone and install it.
+
+Every run uses one build from the EAS free monthly quota, so it is manual only. The preview and development builds share the app id: uninstall one before installing the other.
+
 ### Local backend (Supabase)
 
 Requires **Docker Desktop running**. The Supabase CLI is a dev dependency, so no global install is needed.
