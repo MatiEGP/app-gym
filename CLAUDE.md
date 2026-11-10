@@ -30,7 +30,17 @@ Trigger: the user asks to implement an issue (e.g. "vamos con el issue #12").
    - no git operations, no new dependencies, no edits outside the surfaces.
 5. Review the returned diff against the allowed surfaces, then run lint, typecheck, and tests.
 6. Blockers get one correction round from the same agent. If they persist, fix inline or ask the user.
-7. Commit (Conventional Commits, no AI attribution), push, and open the PR from the template with `Closes #N`, filling the acceptance criteria evidence table. Never merge: the user merges.
+7. If the work involved a significant decision (hard to reverse, affects several features, or chosen between real alternatives; see `docs/adr/README.md`), write its ADR from `docs/adr/template.md` and add it to the index in the same PR. Superseding an ADR means a new ADR plus `Superseded by` on the old one.
+8. Commit (Conventional Commits, no AI attribution), push, and open the PR from the template with `Closes #N`, filling the acceptance criteria evidence table. Never merge: the user merges.
+
+## 3. Milestone closing
+
+Trigger: the last issue of a milestone is merged, or the user asks to close a milestone.
+
+1. Verify on a fresh clone of `main`: install with the frozen lockfile, lint, typecheck, tests; check that every closed issue was closed by its own PR.
+2. Check ADR coverage: every significant decision taken during the milestone has an ADR; propose missing ones to the user.
+3. Write `docs/milestones/mN-<name>.md` following `docs/milestones/m0-foundations.md`: goal and result, what was built (each area linked to its ADR and PR), problems caught, lessons, next steps. Link it from the README and mark the milestone done in the roadmap.
+4. Get the user's review of the report before opening its PR; close the GitHub milestone only when the user asks.
 
 ## Verification policy
 

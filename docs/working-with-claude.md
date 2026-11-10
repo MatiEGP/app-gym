@@ -10,6 +10,9 @@ How to drive this project with Claude Code: you decide **what** gets built and *
 | "Aprobado" | Creates the issues in GitHub with labels and milestone | Move them to **Ready** on the board |
 | "Vamos con el issue #12" | States the risk tier, branches, delegates, reviews, opens the PR | Review the PR |
 | "Mergealo" / you merge | — | The issue closes and moves to **Done** |
+| "Cerremos M1" | Verifies `main` on a fresh clone, checks ADR coverage, drafts `docs/milestones/m1-<name>.md` | Review the report; ask to close the milestone |
+
+Significant decisions get an ADR in the same PR as the change (`docs/adr/`); the PR template has a checkbox for it.
 
 ## The two phases
 

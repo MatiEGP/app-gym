@@ -112,6 +112,7 @@ supabase/            # migrations (SQL + RLS) and seed
 - [ ] Works offline (airplane mode) when the feature touches workouts.
 - [ ] No secrets, debug code, or unused files.
 - [ ] i18n keys added for new UI copy; docs updated if behavior or commands changed.
+- [ ] ADR added (and indexed) if the change involved a significant architectural decision (`docs/adr/README.md`).
 
 ## Agent Boundaries
 

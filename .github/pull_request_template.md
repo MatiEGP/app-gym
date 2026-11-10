@@ -32,4 +32,5 @@ Closes #
 - [ ] Works offline (airplane mode) when the feature touches workouts.
 - [ ] No secrets, debug code, or unused files.
 - [ ] i18n keys added for new UI copy; docs updated if behavior or commands changed.
+- [ ] ADR added (and indexed) if this PR involved a significant architectural decision, or N/A.
 - [ ] PR title follows Conventional Commits and the diff is ~400 lines or less.
