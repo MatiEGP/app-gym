@@ -68,6 +68,11 @@ export const es = {
       secondaryMuscleGroups: 'Grupos musculares secundarios',
       equipment: 'Equipamiento',
       notFound: 'No encontramos este ejercicio',
+      edit: 'Editar',
+    },
+    edit: {
+      title: 'Editar ejercicio',
+      notEditable: 'Este ejercicio no se puede editar',
     },
   },
 } as const;
