@@ -7,4 +7,5 @@ export const colors = {
   surface: '#FFFFFF',
   text: '#0F172A',
   textMuted: '#64748B',
+  danger: '#DC2626',
 } as const;

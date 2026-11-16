@@ -1,7 +1,7 @@
-import { useRouter } from 'expo-router';
-import { useMemo, useState } from 'react';
+import { useFocusEffect, useRouter } from 'expo-router';
+import { useCallback, useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ScrollView, Text, TextInput, View } from 'react-native';
+import { Pressable, ScrollView, Text, TextInput, View } from 'react-native';
 
 import {
   filterExercisesByMuscleGroup,
@@ -14,12 +14,13 @@ import { MuscleGroupFilter } from './MuscleGroupFilter';
 
 /**
  * The exercise catalog, sorted by name, with a name search and a primary muscle group filter.
- * Reads the catalog once on mount.
+ * Reloads the catalog whenever the screen regains focus, so a new custom exercise shows up.
  */
 export function ExerciseCatalogScreen() {
   const { t } = useTranslation();
   const router = useRouter();
-  const [exercises] = useState(listExercises);
+  const [exercises, setExercises] = useState(listExercises);
+  useFocusEffect(useCallback(() => setExercises(listExercises()), []));
   const [search, setSearch] = useState('');
   const [muscleGroup, setMuscleGroup] = useState<MuscleGroup | null>(null);
   const visibleExercises = useMemo(
@@ -38,6 +39,15 @@ export function ExerciseCatalogScreen() {
         autoCorrect={false}
         autoCapitalize="none"
       />
+      <Pressable
+        accessibilityRole="button"
+        onPress={() => router.push('/exercises/new')}
+        className="mx-4 mt-2 items-center rounded-xl bg-primary px-4 py-3"
+      >
+        <Text className="text-base font-semibold text-surface">
+          {t(($) => $.exercises.catalog.newExercise)}
+        </Text>
+      </Pressable>
       <MuscleGroupFilter selected={muscleGroup} onChange={setMuscleGroup} />
       <ScrollView
         className="flex-1"

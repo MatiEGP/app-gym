@@ -14,6 +14,20 @@ export const es = {
       searchLabel: 'Buscar ejercicio por nombre',
       muscleGroupFilterLabel: 'Filtrar por grupo muscular',
       noResults: 'No se encontraron ejercicios',
+      newExercise: 'Nuevo ejercicio',
+      customBadge: 'Propio',
+    },
+    create: {
+      title: 'Nuevo ejercicio',
+      nameLabel: 'Nombre del ejercicio',
+      namePlaceholder: 'Nombre',
+      muscleGroupLabel: 'Grupo muscular principal',
+      save: 'Guardar',
+      errors: {
+        nameRequired: 'Escribí un nombre',
+        muscleGroupRequired: 'Elegí un grupo muscular',
+        duplicateName: 'Ya existe un ejercicio con ese nombre',
+      },
     },
     muscleGroups: {
       chest: 'Pecho',
