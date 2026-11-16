@@ -1,13 +1,35 @@
 // Spanish (default and fallback language). Keys are grouped by screen or feature.
 export const es = {
-  placeholder: {
-    subtitle: 'Tu compañero de entrenamiento',
-  },
   db: {
     migrating: 'Preparando la base de datos',
     migrationError: {
       title: 'No se pudo preparar la base de datos',
       description: 'Cerrá la app y volvé a abrirla. Si el problema sigue, reinstalala.',
+    },
+  },
+  exercises: {
+    catalog: {
+      title: 'Ejercicios',
+    },
+    muscleGroups: {
+      chest: 'Pecho',
+      lats: 'Dorsales',
+      upper_back: 'Espalda alta',
+      traps: 'Trapecios',
+      shoulders: 'Hombros',
+      biceps: 'Bíceps',
+      triceps: 'Tríceps',
+      forearms: 'Antebrazos',
+      abs: 'Abdominales',
+      lower_back: 'Zona lumbar',
+      glutes: 'Glúteos',
+      quads: 'Cuádriceps',
+      hamstrings: 'Isquiotibiales',
+      calves: 'Gemelos',
+      adductors: 'Aductores',
+      abductors: 'Abductores',
+      cardio: 'Cardio',
+      full_body: 'Cuerpo completo',
     },
   },
 } as const;

@@ -16,17 +16,17 @@ describe('resolveLanguage', () => {
 describe('i18n instance', () => {
   it('serves Spanish copy by key', () => {
     expect(i18n.language).toBe('es');
-    expect(i18n.t(($) => $.placeholder.subtitle)).toBe('Tu compañero de entrenamiento');
+    expect(i18n.t(($) => $.db.migrating)).toBe('Preparando la base de datos');
   });
 
   it('makes a missing key visible instead of failing silently', () => {
     const warn = jest.spyOn(console, 'warn').mockImplementation(() => {});
 
-    const text = i18n.t('placeholder.doesNotExist' as never);
+    const text = i18n.t('db.doesNotExist' as never);
 
-    expect(text).toContain('placeholder.doesNotExist');
+    expect(text).toContain('db.doesNotExist');
     expect(text).toMatch(/missing/i);
-    expect(warn).toHaveBeenCalledWith(expect.stringContaining('placeholder.doesNotExist'));
+    expect(warn).toHaveBeenCalledWith(expect.stringContaining('db.doesNotExist'));
     warn.mockRestore();
   });
 });
