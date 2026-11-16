@@ -2,17 +2,27 @@ import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ScrollView, Text, TextInput, View } from 'react-native';
 
-import { filterExercisesByName, listExercises } from '../application';
+import {
+  filterExercisesByMuscleGroup,
+  filterExercisesByName,
+  listExercises,
+  type MuscleGroup,
+} from '../application';
 import { ExerciseListItem } from './ExerciseListItem';
+import { MuscleGroupFilter } from './MuscleGroupFilter';
 
-/** The exercise catalog, sorted by name, with a name search. Reads the catalog once on mount. */
+/**
+ * The exercise catalog, sorted by name, with a name search and a primary muscle group filter.
+ * Reads the catalog once on mount.
+ */
 export function ExerciseCatalogScreen() {
   const { t } = useTranslation();
   const [exercises] = useState(listExercises);
   const [search, setSearch] = useState('');
+  const [muscleGroup, setMuscleGroup] = useState<MuscleGroup | null>(null);
   const visibleExercises = useMemo(
-    () => filterExercisesByName(exercises, search),
-    [exercises, search],
+    () => filterExercisesByMuscleGroup(filterExercisesByName(exercises, search), muscleGroup),
+    [exercises, search, muscleGroup],
   );
 
   return (
@@ -26,6 +36,7 @@ export function ExerciseCatalogScreen() {
         autoCorrect={false}
         autoCapitalize="none"
       />
+      <MuscleGroupFilter selected={muscleGroup} onChange={setMuscleGroup} />
       <ScrollView
         className="flex-1"
         contentContainerClassName="py-2"

@@ -9,6 +9,9 @@ import { ExerciseCatalogScreen } from './ExerciseCatalogScreen';
 jest.mock('../application', () => ({
   listExercises: jest.fn(),
   filterExercisesByName: jest.requireActual('../domain/exercise').filterExercisesByName,
+  filterExercisesByMuscleGroup:
+    jest.requireActual('../domain/exercise').filterExercisesByMuscleGroup,
+  MUSCLE_GROUPS: jest.requireActual('../domain/muscle-group').MUSCLE_GROUPS,
 }));
 
 const mockedListExercises = jest.mocked(listExercises);
@@ -42,7 +45,7 @@ describe('ExerciseCatalogScreen', () => {
       'Press de banca con barra, Pecho',
     ]);
     expect(screen.getByText('Press de banca con barra')).toBeOnTheScreen();
-    expect(screen.getByText('Zona lumbar')).toBeOnTheScreen();
+    expect(screen.getByLabelText('Hiperextensiones, Zona lumbar')).toBeOnTheScreen();
   });
 
   describe('search', () => {
@@ -86,6 +89,60 @@ describe('ExerciseCatalogScreen', () => {
 
       expect(screen.queryByText('No se encontraron ejercicios')).not.toBeOnTheScreen();
       expect(rowLabels()).toHaveLength(3);
+    });
+  });
+
+  describe('muscle group filter', () => {
+    const rowLabels = () =>
+      screen.queryAllByLabelText(/, /).map((row) => row.props.accessibilityLabel);
+
+    beforeEach(() => {
+      mockedListExercises.mockReturnValue([
+        exercise({ id: '1', name: 'Curl de bíceps', primaryMuscleGroup: 'biceps' }),
+        exercise({
+          id: '2',
+          name: 'Press de banca',
+          primaryMuscleGroup: 'chest',
+          secondaryMuscleGroups: ['triceps'],
+        }),
+        exercise({ id: '3', name: 'Extensión de tríceps', primaryMuscleGroup: 'triceps' }),
+        exercise({ id: '4', name: 'Fondos en paralelas', primaryMuscleGroup: 'triceps' }),
+      ]);
+    });
+
+    it('lists only exercises whose primary group is the selected one', async () => {
+      await render(<ExerciseCatalogScreen />);
+
+      await fireEvent.press(screen.getByRole('button', { name: 'Tríceps' }));
+
+      expect(rowLabels()).toEqual([
+        'Extensión de tríceps, Tríceps',
+        'Fondos en paralelas, Tríceps',
+      ]);
+    });
+
+    it('lists only exercises meeting both the search text and the selected group', async () => {
+      await render(<ExerciseCatalogScreen />);
+
+      await fireEvent.press(screen.getByRole('button', { name: 'Tríceps' }));
+      await fireEvent.changeText(screen.getByPlaceholderText('Buscar ejercicio'), 'fondos');
+
+      expect(rowLabels()).toEqual(['Fondos en paralelas, Tríceps']);
+    });
+
+    it('returns to the search-only list when the selected chip is pressed again', async () => {
+      await render(<ExerciseCatalogScreen />);
+      await fireEvent.changeText(screen.getByPlaceholderText('Buscar ejercicio'), 'de');
+
+      await fireEvent.press(screen.getByRole('button', { name: 'Tríceps' }));
+      expect(rowLabels()).toEqual(['Extensión de tríceps, Tríceps']);
+
+      await fireEvent.press(screen.getByRole('button', { name: 'Tríceps' }));
+      expect(rowLabels()).toEqual([
+        'Curl de bíceps, Bíceps',
+        'Press de banca, Pecho',
+        'Extensión de tríceps, Tríceps',
+      ]);
     });
   });
 });
