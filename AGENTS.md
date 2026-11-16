@@ -20,7 +20,7 @@
 | State | Zustand | TODO (M2) |
 | Local DB | expo-sqlite + Drizzle ORM (drizzle-kit for migrations) | SDK 58 / 0.45 / 0.31 |
 | Backend | Supabase (Postgres, Auth, RLS) | — |
-| Tests | Jest (jest-expo) + React Native Testing Library + test-renderer | Jest 30, jest-expo 58, RNTL 14, test-renderer 1.3 |
+| Tests | Jest (jest-expo) + React Native Testing Library + test-renderer; sql.js for in-memory SQLite | Jest 30, jest-expo 58, RNTL 14, test-renderer 1.3, sql.js 1.15 |
 | Package manager | pnpm via Corepack (`packageManager` field) | 10.34.9 |
 
 ## Commands
@@ -101,6 +101,7 @@ supabase/            # migrations (SQL + RLS) and seed
 - Jest; tests live next to code as `*.test.ts(x)`. Two Jest projects: `app` (jest-expo, everything under `src/`) and `tooling` (plain Node, root `*.test.js` for config such as ESLint rules).
 - RNTL 14: `render`, `fireEvent`, and `act` are async; always `await` them. `test-renderer` minor must match the React minor (React 19.3 → 1.3).
 - Every domain rule and use case has unit tests; every bug fix starts with a failing test.
+- Persistence: repositories take an `AppDatabase` (`src/shared/db/database.ts`) instead of importing the app client. Their tests use `createTestDb()` from `src/shared/db/test-db.ts`: a fresh in-memory SQLite (sql.js) with every committed migration applied. Never import `test-db.ts` from app code (ADR 0015).
 - UI: test containers with React Native Testing Library through user-visible behavior.
 - E2E (Maestro) for the critical flow: start workout → add set → finish (from M7).
 - Test-first for every change: each acceptance criterion is verified by an automated test, a command probe, or a manual check, in that order of preference, with evidence in the PR (full policy: `CLAUDE.md` → Verification policy).
