@@ -22,6 +22,8 @@ export const es = {
       nameLabel: 'Nombre del ejercicio',
       namePlaceholder: 'Nombre',
       muscleGroupLabel: 'Grupo muscular principal',
+      secondaryMuscleGroupsLabel: 'Grupos musculares secundarios',
+      equipmentLabel: 'Equipamiento',
       save: 'Guardar',
       errors: {
         nameRequired: 'Escribí un nombre',

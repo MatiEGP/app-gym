@@ -1,5 +1,6 @@
 import { sortExercisesByName, type Exercise } from '../domain/exercise';
 import {
+  cleanSecondaryMuscleGroups,
   validateNewExercise,
   type NewExerciseError,
   type NewExerciseInput,
@@ -37,8 +38,11 @@ export function createCustomExercise(
     id: deps.newId(),
     name: input.name.trim(),
     primaryMuscleGroup: input.primaryMuscleGroup,
-    secondaryMuscleGroups: [],
-    equipment: null,
+    secondaryMuscleGroups: cleanSecondaryMuscleGroups(
+      input.primaryMuscleGroup,
+      input.secondaryMuscleGroups,
+    ),
+    equipment: input.equipment,
     origin: 'custom',
   };
   repository.insertCustom(exercise, deps.now());

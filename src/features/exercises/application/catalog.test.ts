@@ -108,7 +108,12 @@ describe('createCustomExercise', () => {
   it('stores the exercise with a generated id, the trimmed name, the save time, and custom origin', () => {
     const result = createCustomExercise(
       repository,
-      { name: '  Remo con mancuerna  ', primaryMuscleGroup: 'lats' },
+      {
+        name: '  Remo con mancuerna  ',
+        primaryMuscleGroup: 'lats',
+        secondaryMuscleGroups: [],
+        equipment: null,
+      },
       deps,
     );
 
@@ -142,12 +147,22 @@ describe('createCustomExercise', () => {
   it('lists the new exercise in alphabetical position among the seeded ones, marked as custom', () => {
     createCustomExercise(
       repository,
-      { name: 'Zancadas con salto', primaryMuscleGroup: 'quads' },
+      {
+        name: 'Zancadas con salto',
+        primaryMuscleGroup: 'quads',
+        secondaryMuscleGroups: [],
+        equipment: null,
+      },
       deps,
     );
     createCustomExercise(
       repository,
-      { name: 'Aaa primero', primaryMuscleGroup: 'abs' },
+      {
+        name: 'Aaa primero',
+        primaryMuscleGroup: 'abs',
+        secondaryMuscleGroups: [],
+        equipment: null,
+      },
       { ...deps, newId: () => 'custom-2' },
     );
 
@@ -161,16 +176,39 @@ describe('createCustomExercise', () => {
   });
 
   it.each([
-    ['an empty name', { name: '', primaryMuscleGroup: 'chest' as const }, ['nameRequired']],
     [
-      'a whitespace-only name',
-      { name: '  ', primaryMuscleGroup: 'chest' as const },
+      'an empty name',
+      {
+        name: '',
+        primaryMuscleGroup: 'chest' as const,
+        secondaryMuscleGroups: [],
+        equipment: null,
+      },
       ['nameRequired'],
     ],
-    ['no muscle group', { name: 'Remo', primaryMuscleGroup: null }, ['muscleGroupRequired']],
+    [
+      'a whitespace-only name',
+      {
+        name: '  ',
+        primaryMuscleGroup: 'chest' as const,
+        secondaryMuscleGroups: [],
+        equipment: null,
+      },
+      ['nameRequired'],
+    ],
+    [
+      'no muscle group',
+      { name: 'Remo', primaryMuscleGroup: null, secondaryMuscleGroups: [], equipment: null },
+      ['muscleGroupRequired'],
+    ],
     [
       'the name of a seeded exercise, ignoring case, accents, and spaces',
-      { name: ' press de BANCA con barra ', primaryMuscleGroup: 'chest' as const },
+      {
+        name: ' press de BANCA con barra ',
+        primaryMuscleGroup: 'chest' as const,
+        secondaryMuscleGroups: [],
+        equipment: null,
+      },
       ['duplicateName'],
     ],
   ])('stores nothing and returns the errors for %s', (_label, input, errors) => {
@@ -182,11 +220,15 @@ describe('createCustomExercise', () => {
   });
 
   it('rejects the name of an existing custom exercise', () => {
-    createCustomExercise(repository, { name: 'Remo', primaryMuscleGroup: 'lats' }, deps);
+    createCustomExercise(
+      repository,
+      { name: 'Remo', primaryMuscleGroup: 'lats', secondaryMuscleGroups: [], equipment: null },
+      deps,
+    );
 
     const result = createCustomExercise(
       repository,
-      { name: 'remo', primaryMuscleGroup: 'lats' },
+      { name: 'remo', primaryMuscleGroup: 'lats', secondaryMuscleGroups: [], equipment: null },
       { ...deps, newId: () => 'custom-2' },
     );
 
@@ -199,10 +241,73 @@ describe('createCustomExercise', () => {
 
     const result = createCustomExercise(
       repository,
-      { name: deleted.name, primaryMuscleGroup: deleted.primaryMuscleGroup },
+      {
+        name: deleted.name,
+        primaryMuscleGroup: deleted.primaryMuscleGroup,
+        secondaryMuscleGroups: [],
+        equipment: null,
+      },
       deps,
     );
 
     expect(result.ok).toBe(true);
+  });
+
+  describe('optional attributes', () => {
+    type AttributeRow = { secondary_muscle_groups: string; equipment: string | null };
+    const readAttributes = () =>
+      db.all<AttributeRow>(
+        sql`select secondary_muscle_groups, equipment from exercises where id = 'custom-1'`,
+      );
+
+    it('stores the secondary muscle groups and the equipment', () => {
+      const result = createCustomExercise(
+        repository,
+        {
+          name: 'Remo',
+          primaryMuscleGroup: 'lats',
+          secondaryMuscleGroups: ['biceps', 'forearms'],
+          equipment: 'cable',
+        },
+        deps,
+      );
+
+      expect(result.ok).toBe(true);
+      expect(readAttributes()).toEqual([
+        { secondary_muscle_groups: '["biceps","forearms"]', equipment: 'cable' },
+      ]);
+      expect(getExercise(repository, 'custom-1')).toMatchObject({
+        secondaryMuscleGroups: ['biceps', 'forearms'],
+        equipment: 'cable',
+      });
+    });
+
+    it('creates the exercise when both are left empty', () => {
+      const result = createCustomExercise(
+        repository,
+        { name: 'Remo', primaryMuscleGroup: 'lats', secondaryMuscleGroups: [], equipment: null },
+        deps,
+      );
+
+      expect(result.ok).toBe(true);
+      expect(readAttributes()).toEqual([{ secondary_muscle_groups: '[]', equipment: null }]);
+    });
+
+    it('does not store the primary group as secondary', () => {
+      createCustomExercise(
+        repository,
+        {
+          name: 'Remo',
+          primaryMuscleGroup: 'lats',
+          secondaryMuscleGroups: ['lats', 'biceps'],
+          equipment: null,
+        },
+        deps,
+      );
+
+      expect(readAttributes()).toEqual([
+        { secondary_muscle_groups: '["biceps"]', equipment: null },
+      ]);
+    });
   });
 });

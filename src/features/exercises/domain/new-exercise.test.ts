@@ -1,4 +1,4 @@
-import { validateNewExercise } from './new-exercise';
+import { cleanSecondaryMuscleGroups, validateNewExercise } from './new-exercise';
 
 const active = [{ name: 'Press de banca con barra' }, { name: 'Sentadilla' }];
 
@@ -47,5 +47,22 @@ describe('validateNewExercise', () => {
     expect(
       validateNewExercise({ name: 'Sentadilla búlgara', primaryMuscleGroup: 'quads' }, active),
     ).toEqual([]);
+  });
+});
+
+describe('cleanSecondaryMuscleGroups', () => {
+  it('removes the primary group', () => {
+    expect(cleanSecondaryMuscleGroups('chest', ['chest', 'triceps'])).toEqual(['triceps']);
+  });
+
+  it('removes duplicates and keeps the order of the muscle group list', () => {
+    expect(cleanSecondaryMuscleGroups('lats', ['biceps', 'chest', 'biceps'])).toEqual([
+      'chest',
+      'biceps',
+    ]);
+  });
+
+  it('keeps every group when there is no primary yet', () => {
+    expect(cleanSecondaryMuscleGroups(null, ['abs', 'chest'])).toEqual(['chest', 'abs']);
   });
 });

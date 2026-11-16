@@ -1,41 +1,29 @@
 import { useTranslation } from 'react-i18next';
-import { Pressable, ScrollView, Text } from 'react-native';
 
 import { MUSCLE_GROUPS, type MuscleGroup } from '../application';
+import { ChipSelect } from './ChipSelect';
 
 type Props = {
   selected: MuscleGroup | null;
   onChange: (group: MuscleGroup | null) => void;
+  /** Accessibility label of the chip row; defaults to the catalog filter label. */
+  label?: string;
 };
 
-/** A row of chips, one per muscle group. Pressing the selected chip clears the filter. */
-export function MuscleGroupFilter({ selected, onChange }: Props) {
+/** Single-select muscle group chips. Pressing the selected chip clears the selection. */
+export function MuscleGroupFilter({ selected, onChange, label }: Props) {
   const { t } = useTranslation();
+  const options = MUSCLE_GROUPS.map((group) => ({
+    value: group,
+    label: t(($) => $.exercises.muscleGroups[group]),
+  }));
 
   return (
-    <ScrollView
-      horizontal
-      showsHorizontalScrollIndicator={false}
-      className="grow-0"
-      contentContainerClassName="gap-2 px-4 py-2"
-      accessibilityLabel={t(($) => $.exercises.catalog.muscleGroupFilterLabel)}
-    >
-      {MUSCLE_GROUPS.map((group) => {
-        const isSelected = group === selected;
-        return (
-          <Pressable
-            key={group}
-            accessibilityRole="button"
-            accessibilityState={{ selected: isSelected }}
-            onPress={() => onChange(isSelected ? null : group)}
-            className={`rounded-full px-4 py-2 ${isSelected ? 'bg-primary' : 'bg-surface'}`}
-          >
-            <Text className={isSelected ? 'text-surface' : 'text-text'}>
-              {t(($) => $.exercises.muscleGroups[group])}
-            </Text>
-          </Pressable>
-        );
-      })}
-    </ScrollView>
+    <ChipSelect
+      label={label ?? t(($) => $.exercises.catalog.muscleGroupFilterLabel)}
+      options={options}
+      isSelected={(group) => group === selected}
+      onPress={(group) => onChange(group === selected ? null : group)}
+    />
   );
 }
