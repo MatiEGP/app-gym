@@ -3,6 +3,8 @@ import { fireEvent, render, screen } from '@testing-library/react-native';
 import { listExercises, type Exercise } from '../application';
 import { ExerciseCatalogScreen } from './ExerciseCatalogScreen';
 
+jest.mock('expo-router', () => ({ useRouter: () => ({ push: jest.fn() }) }));
+
 // UI never touches the DB: the use case is mocked here. Seeding, sorting, and storage are
 // covered against a real in-memory SQLite in application/catalog.test.ts. The filter is pure
 // and stays real.

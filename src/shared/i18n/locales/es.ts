@@ -35,5 +35,23 @@ export const es = {
       cardio: 'Cardio',
       full_body: 'Cuerpo completo',
     },
+    equipment: {
+      barbell: 'Barra',
+      ez_bar: 'Barra Z',
+      dumbbell: 'Mancuernas',
+      kettlebell: 'Pesa rusa',
+      machine: 'M�quina',
+      smith_machine: 'M�quina Smith',
+      cable: 'Polea',
+      band: 'Banda el�stica',
+      bodyweight: 'Peso corporal',
+      other: 'Otro',
+    },
+    detail: {
+      primaryMuscleGroup: 'Grupo muscular principal',
+      secondaryMuscleGroups: 'Grupos musculares secundarios',
+      equipment: 'Equipamiento',
+      notFound: 'No encontramos este ejercicio',
+    },
   },
 } as const;
