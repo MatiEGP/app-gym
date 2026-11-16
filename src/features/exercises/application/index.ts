@@ -20,12 +20,18 @@ export const createCustomExercise = (input: NewExerciseInput) =>
   });
 export const updateCustomExercise = (id: string, input: NewExerciseInput) =>
   catalog.updateCustomExercise(repository, id, input, { now: () => new Date() });
+export const deleteCustomExercise = (id: string) =>
+  catalog.deleteCustomExercise(repository, id, { now: () => new Date() });
 export { filterExercisesByMuscleGroup, filterExercisesByName } from '../domain/exercise';
 export { cleanSecondaryMuscleGroups } from '../domain/new-exercise';
 export { EQUIPMENT } from '../domain/equipment';
 export { MUSCLE_GROUPS } from '../domain/muscle-group';
 
-export type { CreateCustomExerciseResult, UpdateCustomExerciseResult } from './catalog';
+export type {
+  CreateCustomExerciseResult,
+  DeleteCustomExerciseResult,
+  UpdateCustomExerciseResult,
+} from './catalog';
 export type { NewExerciseError, NewExerciseInput } from '../domain/new-exercise';
 export type { Equipment } from '../domain/equipment';
 export type { Exercise, ExerciseOrigin } from '../domain/exercise';

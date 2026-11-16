@@ -13,4 +13,6 @@ export interface ExerciseRepository {
   insertCustom(exercise: Exercise, updatedAt: Date): void;
   /** Overwrites the editable fields of a custom exercise; seeded or unknown ids are untouched. */
   updateCustom(exercise: Exercise, updatedAt: Date): void;
+  /** Soft-deletes an active custom exercise (sets `deleted_at` and `updated_at`); others are untouched. */
+  softDeleteCustom(id: string, deletedAt: Date): void;
 }
