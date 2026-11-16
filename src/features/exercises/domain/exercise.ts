@@ -27,3 +27,13 @@ export function sortExercisesByName<T extends { name: string }>(exercises: reado
     .sort((a, b) => (a.key < b.key ? -1 : a.key > b.key ? 1 : 0))
     .map(({ exercise }) => exercise);
 }
+
+/** Keeps the exercises whose name contains the query, ignoring case, accents, and outer spaces. */
+export function filterExercisesByName<T extends { name: string }>(
+  exercises: readonly T[],
+  query: string,
+): T[] {
+  const needle = normalizeExerciseName(query);
+  if (needle === '') return [...exercises];
+  return exercises.filter((exercise) => normalizeExerciseName(exercise.name).includes(needle));
+}
