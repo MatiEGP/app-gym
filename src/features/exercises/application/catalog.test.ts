@@ -5,7 +5,7 @@ import { createTestDb } from '@/shared/db/test-db';
 
 import { SEEDED_EXERCISES } from '../domain/seeded-exercises';
 import { createSqliteExerciseRepository } from '../infrastructure/sqlite-exercise-repository';
-import { getExercise, listExercises, seedExerciseCatalog } from './catalog';
+import { createCustomExercise, getExercise, listExercises, seedExerciseCatalog } from './catalog';
 
 type StoredRow = {
   id: string;
@@ -88,5 +88,121 @@ describe('exercise catalog', () => {
 
     expect(listedIds).not.toContain(deleted.id);
     expect(listedIds).toHaveLength(SEEDED_EXERCISES.length - 1);
+  });
+});
+
+describe('createCustomExercise', () => {
+  let db: AppDatabase;
+  let repository: ReturnType<typeof createSqliteExerciseRepository>;
+  const savedAt = new Date('2026-03-01T10:00:00.000Z');
+  const deps = { newId: () => 'custom-1', now: () => savedAt };
+
+  const countRows = () => db.all<{ n: number }>(sql`select count(*) as n from exercises`)[0].n;
+
+  beforeEach(async () => {
+    db = await createTestDb();
+    repository = createSqliteExerciseRepository(db);
+    seedExerciseCatalog(repository);
+  });
+
+  it('stores the exercise with a generated id, the trimmed name, the save time, and custom origin', () => {
+    const result = createCustomExercise(
+      repository,
+      { name: '  Remo con mancuerna  ', primaryMuscleGroup: 'lats' },
+      deps,
+    );
+
+    expect(result).toEqual({
+      ok: true,
+      exercise: {
+        id: 'custom-1',
+        name: 'Remo con mancuerna',
+        primaryMuscleGroup: 'lats',
+        secondaryMuscleGroups: [],
+        equipment: null,
+        origin: 'custom',
+      },
+    });
+    const rows = db.all<StoredRow & { name: string; primary_muscle_group: string }>(
+      sql`select id, name, primary_muscle_group, user_id, updated_at, deleted_at, origin from exercises where id = 'custom-1'`,
+    );
+    expect(rows).toEqual([
+      {
+        id: 'custom-1',
+        name: 'Remo con mancuerna',
+        primary_muscle_group: 'lats',
+        user_id: null,
+        updated_at: savedAt.getTime(),
+        deleted_at: null,
+        origin: 'custom',
+      },
+    ]);
+  });
+
+  it('lists the new exercise in alphabetical position among the seeded ones, marked as custom', () => {
+    createCustomExercise(
+      repository,
+      { name: 'Zancadas con salto', primaryMuscleGroup: 'quads' },
+      deps,
+    );
+    createCustomExercise(
+      repository,
+      { name: 'Aaa primero', primaryMuscleGroup: 'abs' },
+      { ...deps, newId: () => 'custom-2' },
+    );
+
+    const listed = listExercises(repository);
+
+    const sortedNames = listed.map((exercise) => exercise.name);
+    expect(sortedNames).toEqual([...sortedNames].sort((a, b) => collator.compare(a, b)));
+    expect(listed[0]).toMatchObject({ name: 'Aaa primero', origin: 'custom' });
+    expect(listed.find((exercise) => exercise.id === 'custom-1')?.origin).toBe('custom');
+    expect(listed).toHaveLength(SEEDED_EXERCISES.length + 2);
+  });
+
+  it.each([
+    ['an empty name', { name: '', primaryMuscleGroup: 'chest' as const }, ['nameRequired']],
+    [
+      'a whitespace-only name',
+      { name: '  ', primaryMuscleGroup: 'chest' as const },
+      ['nameRequired'],
+    ],
+    ['no muscle group', { name: 'Remo', primaryMuscleGroup: null }, ['muscleGroupRequired']],
+    [
+      'the name of a seeded exercise, ignoring case, accents, and spaces',
+      { name: ' press de BANCA con barra ', primaryMuscleGroup: 'chest' as const },
+      ['duplicateName'],
+    ],
+  ])('stores nothing and returns the errors for %s', (_label, input, errors) => {
+    const before = countRows();
+
+    expect(createCustomExercise(repository, input, deps)).toEqual({ ok: false, errors });
+
+    expect(countRows()).toBe(before);
+  });
+
+  it('rejects the name of an existing custom exercise', () => {
+    createCustomExercise(repository, { name: 'Remo', primaryMuscleGroup: 'lats' }, deps);
+
+    const result = createCustomExercise(
+      repository,
+      { name: 'remo', primaryMuscleGroup: 'lats' },
+      { ...deps, newId: () => 'custom-2' },
+    );
+
+    expect(result).toEqual({ ok: false, errors: ['duplicateName'] });
+  });
+
+  it('does not treat the name of a soft-deleted exercise as a duplicate', () => {
+    const [deleted] = SEEDED_EXERCISES;
+    db.run(sql`update exercises set deleted_at = ${Date.now()} where id = ${deleted.id}`);
+
+    const result = createCustomExercise(
+      repository,
+      { name: deleted.name, primaryMuscleGroup: deleted.primaryMuscleGroup },
+      deps,
+    );
+
+    expect(result.ok).toBe(true);
   });
 });
