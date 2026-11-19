@@ -19,6 +19,8 @@ export const createCustomExercise = (input: NewExerciseInput) =>
     now: () => new Date(),
   });
 export { filterExercisesByMuscleGroup, filterExercisesByName } from '../domain/exercise';
+export { cleanSecondaryMuscleGroups } from '../domain/new-exercise';
+export { EQUIPMENT } from '../domain/equipment';
 export { MUSCLE_GROUPS } from '../domain/muscle-group';
 
 export type { CreateCustomExerciseResult } from './catalog';

@@ -3,25 +3,61 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Pressable, ScrollView, Text, TextInput, View } from 'react-native';
 
-import { createCustomExercise, type MuscleGroup, type NewExerciseError } from '../application';
+import {
+  cleanSecondaryMuscleGroups,
+  createCustomExercise,
+  EQUIPMENT,
+  MUSCLE_GROUPS,
+  type Equipment,
+  type MuscleGroup,
+  type NewExerciseError,
+} from '../application';
+import { ChipSelect } from './ChipSelect';
 import { MuscleGroupFilter } from './MuscleGroupFilter';
 
-/** Form to add a custom exercise: a name and a primary muscle group. Goes back on success. */
+/** Form to add a custom exercise: name, primary group, optional secondary groups and equipment. */
 export function CreateExerciseScreen() {
   const { t } = useTranslation();
   const router = useRouter();
   const [name, setName] = useState('');
   const [muscleGroup, setMuscleGroup] = useState<MuscleGroup | null>(null);
+  const [secondary, setSecondary] = useState<MuscleGroup[]>([]);
+  const [equipment, setEquipment] = useState<Equipment | null>(null);
   const [errors, setErrors] = useState<NewExerciseError[]>([]);
 
   function save() {
-    const result = createCustomExercise({ name, primaryMuscleGroup: muscleGroup });
+    const result = createCustomExercise({
+      name,
+      primaryMuscleGroup: muscleGroup,
+      secondaryMuscleGroups: secondary,
+      equipment,
+    });
     if (result.ok) {
       router.back();
     } else {
       setErrors(result.errors);
     }
   }
+
+  function choosePrimary(group: MuscleGroup | null) {
+    setMuscleGroup(group);
+    setSecondary((current) => cleanSecondaryMuscleGroups(group, current));
+  }
+
+  function toggleSecondary(group: MuscleGroup) {
+    setSecondary((current) =>
+      current.includes(group) ? current.filter((g) => g !== group) : [...current, group],
+    );
+  }
+
+  const secondaryOptions = MUSCLE_GROUPS.filter((group) => group !== muscleGroup).map((group) => ({
+    value: group,
+    label: t(($) => $.exercises.muscleGroups[group]),
+  }));
+  const equipmentOptions = EQUIPMENT.map((item) => ({
+    value: item,
+    label: t(($) => $.exercises.equipment[item]),
+  }));
 
   return (
     <ScrollView
@@ -39,7 +75,29 @@ export function CreateExerciseScreen() {
       <Text className="mx-4 mt-4 text-sm text-textMuted">
         {t(($) => $.exercises.create.muscleGroupLabel)}
       </Text>
-      <MuscleGroupFilter selected={muscleGroup} onChange={setMuscleGroup} />
+      <MuscleGroupFilter
+        selected={muscleGroup}
+        onChange={choosePrimary}
+        label={t(($) => $.exercises.create.muscleGroupLabel)}
+      />
+      <Text className="mx-4 mt-4 text-sm text-textMuted">
+        {t(($) => $.exercises.create.secondaryMuscleGroupsLabel)}
+      </Text>
+      <ChipSelect
+        label={t(($) => $.exercises.create.secondaryMuscleGroupsLabel)}
+        options={secondaryOptions}
+        isSelected={(group) => secondary.includes(group)}
+        onPress={toggleSecondary}
+      />
+      <Text className="mx-4 mt-4 text-sm text-textMuted">
+        {t(($) => $.exercises.create.equipmentLabel)}
+      </Text>
+      <ChipSelect
+        label={t(($) => $.exercises.create.equipmentLabel)}
+        options={equipmentOptions}
+        isSelected={(item) => item === equipment}
+        onPress={(item) => setEquipment(item === equipment ? null : item)}
+      />
       <View className="mx-4 mt-2 gap-1" accessibilityLiveRegion="polite">
         {errors.map((error) => (
           <Text key={error} className="text-sm text-danger">
