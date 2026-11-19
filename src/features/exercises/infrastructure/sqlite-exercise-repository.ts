@@ -1,4 +1,4 @@
-import { eq, isNull } from 'drizzle-orm';
+import { and, eq, isNull } from 'drizzle-orm';
 
 import type { AppDatabase } from '@/shared/db/database';
 import { exercises } from '@/shared/db/schema';
@@ -55,6 +55,19 @@ export function createSqliteExerciseRepository(db: AppDatabase): ExerciseReposit
     insertCustom(exercise, updatedAt) {
       db.insert(exercises)
         .values({ ...exercise, origin: 'custom', userId: null, deletedAt: null, updatedAt })
+        .run();
+    },
+
+    updateCustom(exercise, updatedAt) {
+      db.update(exercises)
+        .set({
+          name: exercise.name,
+          primaryMuscleGroup: exercise.primaryMuscleGroup,
+          secondaryMuscleGroups: exercise.secondaryMuscleGroups,
+          equipment: exercise.equipment,
+          updatedAt,
+        })
+        .where(and(eq(exercises.id, exercise.id), eq(exercises.origin, 'custom')))
         .run();
     },
   };

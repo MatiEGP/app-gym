@@ -11,4 +11,6 @@ export interface ExerciseRepository {
   insertMissingSeeded(exercises: readonly SeededExercise[]): void;
   /** Inserts a user-created exercise: no owner yet (`user_id` null) and not deleted. */
   insertCustom(exercise: Exercise, updatedAt: Date): void;
+  /** Overwrites the editable fields of a custom exercise; seeded or unknown ids are untouched. */
+  updateCustom(exercise: Exercise, updatedAt: Date): void;
 }
