@@ -1,3 +1,4 @@
+import { useRouter } from 'expo-router';
 import { useMemo, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ScrollView, Text, TextInput, View } from 'react-native';
@@ -17,6 +18,7 @@ import { MuscleGroupFilter } from './MuscleGroupFilter';
  */
 export function ExerciseCatalogScreen() {
   const { t } = useTranslation();
+  const router = useRouter();
   const [exercises] = useState(listExercises);
   const [search, setSearch] = useState('');
   const [muscleGroup, setMuscleGroup] = useState<MuscleGroup | null>(null);
@@ -48,7 +50,13 @@ export function ExerciseCatalogScreen() {
           </Text>
         ) : (
           visibleExercises.map((exercise) => (
-            <ExerciseListItem key={exercise.id} exercise={exercise} />
+            <ExerciseListItem
+              key={exercise.id}
+              exercise={exercise}
+              onPress={() =>
+                router.push({ pathname: '/exercises/[id]', params: { id: exercise.id } })
+              }
+            />
           ))
         )}
       </ScrollView>

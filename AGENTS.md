@@ -104,6 +104,7 @@ supabase/            # migrations (SQL + RLS) and seed
 - Every domain rule and use case has unit tests; every bug fix starts with a failing test.
 - Persistence: repositories take an `AppDatabase` (`src/shared/db/database.ts`) instead of importing the app client. Their tests use `createTestDb()` from `src/shared/db/test-db.ts`: a fresh in-memory SQLite (sql.js) with every committed migration applied. Never import `test-db.ts` from app code (ADR 0015).
 - UI: test containers with React Native Testing Library through user-visible behavior. `ui/` may not import the DB even in tests: mock the feature's `application` module instead.
+- Navigation: test with `renderRouter` from `expo-router/testing-library` over the real route files. Typed routes live in the git-ignored `.expo/types` and refresh on `pnpm start`; CI typechecks without them.
 - E2E (Maestro) for the critical flow: start workout → add set → finish (from M7).
 - Test-first for every change: each acceptance criterion is verified by an automated test, a command probe, or a manual check, in that order of preference, with evidence in the PR (full policy: `CLAUDE.md` → Verification policy).
 
