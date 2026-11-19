@@ -1,4 +1,43 @@
-import { filterExercisesByName, normalizeExerciseName, sortExercisesByName } from './exercise';
+import {
+  filterExercisesByMuscleGroup,
+  filterExercisesByName,
+  normalizeExerciseName,
+  sortExercisesByName,
+} from './exercise';
+import type { MuscleGroup } from './muscle-group';
+
+describe('filterExercisesByMuscleGroup', () => {
+  type Item = {
+    name: string;
+    primaryMuscleGroup: MuscleGroup;
+    secondaryMuscleGroups: MuscleGroup[];
+  };
+  const exercises: Item[] = [
+    { name: 'Curl', primaryMuscleGroup: 'biceps', secondaryMuscleGroups: [] },
+    { name: 'Press de banca', primaryMuscleGroup: 'chest', secondaryMuscleGroups: ['triceps'] },
+    { name: 'Extensión', primaryMuscleGroup: 'triceps', secondaryMuscleGroups: [] },
+    { name: 'Fondos', primaryMuscleGroup: 'triceps', secondaryMuscleGroups: ['chest'] },
+  ];
+  const names = (list: Item[]) => list.map((exercise) => exercise.name);
+
+  it('keeps only exercises whose primary group is the selected one, not secondary matches', () => {
+    expect(names(filterExercisesByMuscleGroup(exercises, 'triceps'))).toEqual([
+      'Extensión',
+      'Fondos',
+    ]);
+  });
+
+  it('returns every exercise, as a new array, when no group is selected', () => {
+    const all = filterExercisesByMuscleGroup(exercises, null);
+
+    expect(names(all)).toEqual(names(exercises));
+    expect(all).not.toBe(exercises);
+  });
+
+  it('returns an empty array when no exercise has that primary group', () => {
+    expect(filterExercisesByMuscleGroup(exercises, 'calves')).toEqual([]);
+  });
+});
 
 describe('filterExercisesByName', () => {
   const exercises = [

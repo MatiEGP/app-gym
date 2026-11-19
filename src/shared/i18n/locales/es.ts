@@ -12,6 +12,7 @@ export const es = {
       title: 'Ejercicios',
       searchPlaceholder: 'Buscar ejercicio',
       searchLabel: 'Buscar ejercicio por nombre',
+      muscleGroupFilterLabel: 'Filtrar por grupo muscular',
       noResults: 'No se encontraron ejercicios',
     },
     muscleGroups: {

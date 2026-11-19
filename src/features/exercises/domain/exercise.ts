@@ -37,3 +37,12 @@ export function filterExercisesByName<T extends { name: string }>(
   if (needle === '') return [...exercises];
   return exercises.filter((exercise) => normalizeExerciseName(exercise.name).includes(needle));
 }
+
+/** Keeps the exercises whose primary muscle group is the given one; `null` keeps them all. */
+export function filterExercisesByMuscleGroup<T extends { primaryMuscleGroup: MuscleGroup }>(
+  exercises: readonly T[],
+  group: MuscleGroup | null,
+): T[] {
+  if (group === null) return [...exercises];
+  return exercises.filter((exercise) => exercise.primaryMuscleGroup === group);
+}
