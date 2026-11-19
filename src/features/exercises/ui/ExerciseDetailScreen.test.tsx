@@ -8,6 +8,12 @@ jest.mock('../application', () => ({
   getExercise: jest.fn(),
 }));
 
+// The screen runs outside a navigator here: focus effects run on mount and the router is inert.
+jest.mock('expo-router', () => ({
+  useRouter: () => ({ push: jest.fn() }),
+  useFocusEffect: (effect: () => void) => jest.requireActual('react').useEffect(effect, [effect]),
+}));
+
 const mockedGetExercise = jest.mocked(getExercise);
 
 function exercise(overrides: Partial<Exercise>): Exercise {

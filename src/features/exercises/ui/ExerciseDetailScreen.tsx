@@ -1,5 +1,7 @@
+import { useFocusEffect, useRouter } from 'expo-router';
+import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { ScrollView, Text, View } from 'react-native';
+import { Pressable, ScrollView, Text, View } from 'react-native';
 
 import { getExercise } from '../application';
 
@@ -17,7 +19,9 @@ function Section({ title, children }: { title: string; children: string }) {
 /** Details of one exercise: name, muscle groups, and equipment. Empty sections are omitted. */
 export function ExerciseDetailScreen({ id }: Props) {
   const { t } = useTranslation();
-  const exercise = getExercise(id);
+  const router = useRouter();
+  const [exercise, setExercise] = useState(() => getExercise(id));
+  useFocusEffect(useCallback(() => setExercise(getExercise(id)), [id]));
 
   if (!exercise) {
     return (
@@ -34,6 +38,17 @@ export function ExerciseDetailScreen({ id }: Props) {
   return (
     <ScrollView className="flex-1 bg-background" contentContainerClassName="p-4">
       <Text className="text-2xl font-bold text-text">{exercise.name}</Text>
+      {exercise.origin === 'custom' && (
+        <Pressable
+          accessibilityRole="button"
+          onPress={() => router.push({ pathname: '/exercises/edit/[id]', params: { id } })}
+          className="mt-4 items-center self-start rounded-xl bg-surface px-4 py-2"
+        >
+          <Text className="text-base font-semibold text-primary">
+            {t(($) => $.exercises.detail.edit)}
+          </Text>
+        </Pressable>
+      )}
       <Section title={t(($) => $.exercises.detail.primaryMuscleGroup)}>
         {t(($) => $.exercises.muscleGroups[exercise.primaryMuscleGroup])}
       </Section>
