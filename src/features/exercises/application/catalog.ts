@@ -84,3 +84,21 @@ export function updateCustomExercise(
   repository.updateCustom(exercise, deps.now());
   return { ok: true, exercise };
 }
+
+export type DeleteCustomExerciseResult = { ok: true } | { ok: false; error: 'notDeletable' };
+
+/**
+ * Soft-deletes a custom exercise: the row stays stored with `deleted_at` set. Seeded, unknown, or
+ * already deleted exercises are rejected as `notDeletable` and nothing is stored.
+ */
+export function deleteCustomExercise(
+  repository: ExerciseRepository,
+  id: string,
+  deps: { now: () => Date },
+): DeleteCustomExerciseResult {
+  const current = repository.listActive().find((exercise) => exercise.id === id);
+  if (!current || current.origin !== 'custom') return { ok: false, error: 'notDeletable' };
+
+  repository.softDeleteCustom(id, deps.now());
+  return { ok: true };
+}

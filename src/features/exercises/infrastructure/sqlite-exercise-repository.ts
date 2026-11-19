@@ -70,5 +70,14 @@ export function createSqliteExerciseRepository(db: AppDatabase): ExerciseReposit
         .where(and(eq(exercises.id, exercise.id), eq(exercises.origin, 'custom')))
         .run();
     },
+
+    softDeleteCustom(id, deletedAt) {
+      db.update(exercises)
+        .set({ deletedAt, updatedAt: deletedAt })
+        .where(
+          and(eq(exercises.id, id), eq(exercises.origin, 'custom'), isNull(exercises.deletedAt)),
+        )
+        .run();
+    },
   };
 }

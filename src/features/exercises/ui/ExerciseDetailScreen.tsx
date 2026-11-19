@@ -1,9 +1,9 @@
 import { useFocusEffect, useRouter } from 'expo-router';
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { Pressable, ScrollView, Text, View } from 'react-native';
+import { Alert, Pressable, ScrollView, Text, View } from 'react-native';
 
-import { getExercise } from '../application';
+import { deleteCustomExercise, getExercise } from '../application';
 
 type Props = { id: string };
 
@@ -22,6 +22,22 @@ export function ExerciseDetailScreen({ id }: Props) {
   const router = useRouter();
   const [exercise, setExercise] = useState(() => getExercise(id));
   useFocusEffect(useCallback(() => setExercise(getExercise(id)), [id]));
+
+  const confirmDelete = () =>
+    Alert.alert(
+      t(($) => $.exercises.detail.deleteTitle),
+      t(($) => $.exercises.detail.deleteMessage),
+      [
+        { text: t(($) => $.exercises.detail.deleteCancel), style: 'cancel' },
+        {
+          text: t(($) => $.exercises.detail.deleteConfirm),
+          style: 'destructive',
+          onPress: () => {
+            if (deleteCustomExercise(id).ok) router.back();
+          },
+        },
+      ],
+    );
 
   if (!exercise) {
     return (
@@ -46,6 +62,17 @@ export function ExerciseDetailScreen({ id }: Props) {
         >
           <Text className="text-base font-semibold text-primary">
             {t(($) => $.exercises.detail.edit)}
+          </Text>
+        </Pressable>
+      )}
+      {exercise.origin === 'custom' && (
+        <Pressable
+          accessibilityRole="button"
+          onPress={confirmDelete}
+          className="mt-2 items-center self-start rounded-xl bg-surface px-4 py-2"
+        >
+          <Text className="text-base font-semibold text-danger">
+            {t(($) => $.exercises.detail.delete)}
           </Text>
         </Pressable>
       )}

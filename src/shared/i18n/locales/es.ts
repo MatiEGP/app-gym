@@ -69,6 +69,11 @@ export const es = {
       equipment: 'Equipamiento',
       notFound: 'No encontramos este ejercicio',
       edit: 'Editar',
+      delete: 'Eliminar',
+      deleteTitle: '¿Eliminar ejercicio?',
+      deleteMessage: 'Vas a eliminar este ejercicio de tu catálogo.',
+      deleteCancel: 'Cancelar',
+      deleteConfirm: 'Eliminar',
     },
     edit: {
       title: 'Editar ejercicio',
