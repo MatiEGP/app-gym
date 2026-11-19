@@ -10,6 +10,7 @@ const repository = createSqliteExerciseRepository(db);
 export const listExercises = () => catalog.listExercises(repository);
 export const getExercise = (id: string) => catalog.getExercise(repository, id);
 export const seedExerciseCatalog = () => catalog.seedExerciseCatalog(repository);
+export { filterExercisesByName } from '../domain/exercise';
 
 export type { Equipment } from '../domain/equipment';
 export type { Exercise, ExerciseOrigin } from '../domain/exercise';

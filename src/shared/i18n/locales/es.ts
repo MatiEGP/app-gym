@@ -10,6 +10,9 @@ export const es = {
   exercises: {
     catalog: {
       title: 'Ejercicios',
+      searchPlaceholder: 'Buscar ejercicio',
+      searchLabel: 'Buscar ejercicio por nombre',
+      noResults: 'No se encontraron ejercicios',
     },
     muscleGroups: {
       chest: 'Pecho',
