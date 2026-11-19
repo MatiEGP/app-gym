@@ -23,6 +23,8 @@ Records 0001–0014 were written retroactively at the end of milestone M0 (2026-
 | [0013](0013-pnpm-via-corepack-with-hoisted-linker.md) | pnpm via Corepack, with the hoisted node linker | Accepted |
 | [0014](0014-issue-driven-workflow-with-risk-tiered-delegation.md) | Issue-driven workflow with risk-tiered delegation | Accepted |
 | [0015](0015-test-persistence-with-in-memory-sqlite.md) | Test persistence against an in-memory SQLite with sql.js | Accepted |
+| [0016](0016-seeded-exercise-catalog-in-one-local-table.md) | Keep seeded and custom exercises in one local table, seeded at startup | Accepted |
+| [0017](0017-use-cases-bound-in-each-feature-application-entry.md) | Use cases take repository ports, bound to the app database in each feature's entry | Accepted |
 
 ## Writing a new ADR
 

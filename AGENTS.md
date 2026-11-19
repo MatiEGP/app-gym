@@ -59,6 +59,7 @@ supabase/            # migrations (SQL + RLS) and seed
 
 - Local SQLite is the source of truth; Supabase is a sync target. The app must work fully offline.
 - `domain/` never imports React, Expo, Drizzle, or Supabase.
+- Use cases take a repository port as their first argument; each feature's `application/index.ts` binds them to the app database and is the feature's public API (ADR 0017).
 - UI calls use cases; it never queries the DB or Supabase directly.
 - Features never import another feature's internals; only its `application/` exports.
 - Relative imports go at most one folder up (`../x`); anything farther uses the `@/` alias.
@@ -102,7 +103,7 @@ supabase/            # migrations (SQL + RLS) and seed
 - RNTL 14: `render`, `fireEvent`, and `act` are async; always `await` them. `test-renderer` minor must match the React minor (React 19.3 → 1.3).
 - Every domain rule and use case has unit tests; every bug fix starts with a failing test.
 - Persistence: repositories take an `AppDatabase` (`src/shared/db/database.ts`) instead of importing the app client. Their tests use `createTestDb()` from `src/shared/db/test-db.ts`: a fresh in-memory SQLite (sql.js) with every committed migration applied. Never import `test-db.ts` from app code (ADR 0015).
-- UI: test containers with React Native Testing Library through user-visible behavior.
+- UI: test containers with React Native Testing Library through user-visible behavior. `ui/` may not import the DB even in tests: mock the feature's `application` module instead.
 - E2E (Maestro) for the critical flow: start workout → add set → finish (from M7).
 - Test-first for every change: each acceptance criterion is verified by an automated test, a command probe, or a manual check, in that order of preference, with evidence in the PR (full policy: `CLAUDE.md` → Verification policy).
 
