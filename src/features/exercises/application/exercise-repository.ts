@@ -9,4 +9,6 @@ export interface ExerciseRepository {
   findById(id: string): Exercise | undefined;
   /** Inserts the seeded exercises that are not stored yet; existing rows are left untouched. */
   insertMissingSeeded(exercises: readonly SeededExercise[]): void;
+  /** Inserts a user-created exercise: no owner yet (`user_id` null) and not deleted. */
+  insertCustom(exercise: Exercise, updatedAt: Date): void;
 }

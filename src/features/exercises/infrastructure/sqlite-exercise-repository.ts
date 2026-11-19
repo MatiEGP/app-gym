@@ -51,5 +51,11 @@ export function createSqliteExerciseRepository(db: AppDatabase): ExerciseReposit
         .onConflictDoNothing({ target: exercises.id })
         .run();
     },
+
+    insertCustom(exercise, updatedAt) {
+      db.insert(exercises)
+        .values({ ...exercise, origin: 'custom', userId: null, deletedAt: null, updatedAt })
+        .run();
+    },
   };
 }
