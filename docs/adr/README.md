@@ -22,6 +22,7 @@ Records 0001–0014 were written retroactively at the end of milestone M0 (2026-
 | [0012](0012-ci-as-the-required-gate-for-main.md) | CI as the required gate for main | Accepted |
 | [0013](0013-pnpm-via-corepack-with-hoisted-linker.md) | pnpm via Corepack, with the hoisted node linker | Accepted |
 | [0014](0014-issue-driven-workflow-with-risk-tiered-delegation.md) | Issue-driven workflow with risk-tiered delegation | Accepted |
+| [0015](0015-test-persistence-with-in-memory-sqlite.md) | Test persistence against an in-memory SQLite with sql.js | Accepted |
 
 ## Writing a new ADR
 
